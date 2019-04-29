@@ -23,7 +23,7 @@ package org.jnode.vm.classmgr;
 import java.lang.reflect.Field;
 import org.jnode.annotation.PrivilegedActionPragma;
 import org.jnode.vm.isolate.VmIsolateLocal;
-import sun.reflect.ReflectionFactory;
+import jdk.internal.reflect.ReflectionFactory;;
 
 public abstract class VmField extends VmMember {
 
@@ -181,5 +181,9 @@ public abstract class VmField extends VmMember {
      */
     public byte getTypeSize() {
         return typeSize;
+    }
+    
+    public Object getConstantValue() {
+    	return null;
     }
 }

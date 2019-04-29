@@ -185,7 +185,19 @@ public abstract class VmClassType<T> extends VmType<T> {
                             // is set. Without a clone, the VMT offset of
                             // an interface method could be overwritten
                             // in several abstract classes.
-                            final VmInstanceMethod clone = new VmInstanceMethod(method);
+                            final VmInstanceMethod clone;
+                            
+                            if (method.isAbstract()) {
+                            	clone = new VmInstanceMethod(method);
+                            } else {
+                            	//Clone default method
+                            	clone = new VmInstanceMethod(
+                            			method.name,
+                            			method.signature,
+                            			method.getModifiers(),
+                            			method.declaringClass); 
+                            }
+                            
                             vmt.add(clone);
                             if (syntheticAbstractMethods == null) {
                                 syntheticAbstractMethods = new ArrayList<VmInstanceMethod>();

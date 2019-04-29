@@ -20,8 +20,8 @@
  
 package sun.management;
 
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryManagerMXBean;
+import org.jnode.java.lang.management.MemoryManagerMXBean;
+import org.jnode.java.lang.management.MemoryUsage;
 
 /**
  * @see sun.management.MemoryPoolImpl

@@ -21,10 +21,16 @@
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Choice;
+import java.awt.Component;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent.Cause;
 import java.awt.event.ItemEvent;
 import java.awt.peer.ChoicePeer;
+import java.awt.peer.ComponentPeer;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
@@ -95,6 +101,30 @@ final class SwingChoicePeer extends SwingComponentPeer<Choice, SwingChoice> impl
             peersSelection = false;
         }
     }
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

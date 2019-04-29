@@ -184,7 +184,7 @@ public class TailCommand extends AbstractCommand {
             if (reader != null) {
                 try {
                     reader.close();
-                } catch (IOException _) {
+                } catch (IOException e) {
                     // ignore
                 }
             }
@@ -202,7 +202,7 @@ public class TailCommand extends AbstractCommand {
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException _) {
+                } catch (IOException e) {
                     // ignore
                 }
             }

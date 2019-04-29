@@ -181,6 +181,7 @@ public final class VmSystem {
 
     private static void initOpenJDKSpecifics() {
         //todo this will be moved to java.lang.System during openjdk integration
+    	/*
         sun.misc.SharedSecrets.setJavaLangAccess(new sun.misc.JavaLangAccess() {
             public sun.reflect.ConstantPool getConstantPool(Class klass) {
                 return new VmConstantPool(VmType.fromClass(klass));
@@ -203,6 +204,7 @@ public final class VmSystem {
                 throw new UnsupportedOperationException();
             }
         });
+        */
 
         // Trigger initialization of the global environment variables.
         System.getenv();

@@ -21,11 +21,17 @@
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
+import java.awt.Component;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent.Cause;
 import java.awt.event.ItemEvent;
 import java.awt.peer.CheckboxPeer;
+import java.awt.peer.ComponentPeer;
+
 import javax.swing.JCheckBox;
 
 /**
@@ -72,6 +78,34 @@ final class SwingCheckboxPeer extends SwingComponentPeer<Checkbox, SwingCheckBox
     public void setLabel(String label) {
         peerComponent.setText(label);
     }
+
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
 final class SwingCheckBox extends JCheckBox implements ISwingPeer<Checkbox> {

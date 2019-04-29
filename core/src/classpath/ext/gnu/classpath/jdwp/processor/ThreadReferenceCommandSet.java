@@ -221,9 +221,7 @@ public class ThreadReferenceCommandSet
   {
     ThreadId tid = (ThreadId) idMan.readObjectId(bb);
     Thread thread = tid.getThread();
-    ObjectId exception = idMan.readObjectId(bb);
-    Throwable throwable = (Throwable) exception.getObject();
-    thread.stop (throwable);
+    thread.stop();
   }
 
   private void executeInterrupt(ByteBuffer bb, DataOutputStream os)

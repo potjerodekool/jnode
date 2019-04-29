@@ -87,13 +87,13 @@ public final class IOUtils {
                 if (flush && (obj instanceof Flushable)) {
                     try {
                         ((Flushable) obj).flush();
-                    } catch (IOException _) {
+                    } catch (IOException e) {
                         // ignore
                     }
                 }
                 try {
                     obj.close();
-                } catch (IOException _) {
+                } catch (IOException e) {
                     // ignore
                 }
             }

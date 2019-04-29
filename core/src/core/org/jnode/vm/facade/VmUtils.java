@@ -20,13 +20,13 @@
  
 package org.jnode.vm.facade;
 
-import gnu.java.lang.VMClassHelper;
 import java.io.PrintWriter;
 import org.jnode.annotation.Inline;
 import org.jnode.annotation.KernelSpace;
 import org.jnode.annotation.NoInline;
 import org.jnode.annotation.SharedStatics;
 import org.jnode.annotation.Uninterruptible;
+import org.jnode.vm.classmgr.VMClassHelper;
 import org.jnode.vm.classmgr.VmType;
 import org.jnode.vm.objects.Counter;
 import org.jnode.vm.objects.Statistic;

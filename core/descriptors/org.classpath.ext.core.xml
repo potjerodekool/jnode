@@ -23,13 +23,14 @@
 <fragment id="org.classpath.ext.core"
   name="Classpath core classes"
   version="@VERSION@"
-  plugin-id="rt"
+  plugin-id="java.base"
   plugin-version="@VERSION@"
   provider-name="Classpath"
   provider-url="http://classpath.org"
   license-name="classpath">
 
   <runtime>
+  	<!-- 
     <library name="classlib.jar">
 
       <export name="com.sun.media.sound.*"/>
@@ -212,6 +213,7 @@
       <export name="sun.security.*"/>
       <exclude name="sun.security.pkcs.ParsingException"/>
     </library>
+     -->
   </runtime>
   
 </fragment>

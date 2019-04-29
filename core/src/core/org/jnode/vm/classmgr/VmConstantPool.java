@@ -23,7 +23,7 @@ package org.jnode.vm.classmgr;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 
-import sun.reflect.ConstantPool;
+import jdk.internal.reflect.ConstantPool;
 
 /**
  * @author Levente S\u00e1ntha

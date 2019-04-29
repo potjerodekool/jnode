@@ -24,6 +24,11 @@ import java.io.UTFDataFormatException;
 import java.lang.annotation.Annotation;
 import java.nio.ByteBuffer;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.jnode.annotation.AllowedPackages;
 import org.jnode.annotation.CheckPermission;
 import org.jnode.annotation.DoPrivileged;
@@ -306,6 +311,25 @@ public final class ClassDecoder {
                     cp.setInt(i, nIdx << 16 | dIdx);
                     break;
                 }
+                case 15:
+                {
+                	//MethodHandle
+                	int kind = data.get();
+                	int index = data.getChar();
+                	cp.setInt(i, kind << 16 | index);                	
+                	break;
+                }
+                case 16:
+                	//MethodType
+                	data.getChar(); //Descriptor index
+                	break;
+                case 18: {
+                	//Invoke dynamic
+                	final int bootstrapMethodAttrIdx = data.getChar();
+                    final int nameAndTypeIndex = data.getChar();
+                    cp.setInt(i, bootstrapMethodAttrIdx << 16 | nameAndTypeIndex);
+                    break;
+                }
                 default:
                     throw new ClassFormatError("Invalid constantpool tag: "
                         + tags[i]);
@@ -363,7 +387,55 @@ public final class ClassDecoder {
                 }
             }
         }
+        
+        // Patch level 3
+        for (int i = 1; i < cpcount; i++) {
+            final int tag = tags[i];
+            
+            if (tag == 12) {
+            	//name and type
+            	final int v = cp.getInt(i);
+                final int nameIndex = v >>> 16;
+                final int typeIndex = v & 0xFFFF;
+                
+                final String name = cp.getUTF8(nameIndex);
+                final String type = cp.getUTF8(typeIndex);                
+                cp.setConstNameAndType(i, new VmConstNameAndType(name, type));
+            }
+        }
 
+        final Map<Integer, List<Integer>> dynamicMethods = new HashMap<>(); 
+        
+        // Patch level 4
+        for (int i = 1; i < cpcount; i++) {
+            final int tag = tags[i];
+            
+            if (tag == 15) {
+            	final int v = cp.getInt(i);
+            	//MethodHandle            	
+            	final int kind = v >>> 16;
+                final int index = v & 0xFFFF;
+                final VmConstMethodRef methodRef = cp.getConstMethodRef(index);
+                cp.setConstMethodHandle(i, new VmConstMethodHandle(kind, methodRef));
+            } else if (tag == 18) {
+            	//Invoke dynamic
+                final int v = cp.getInt(i);
+                final int bootstrapMethodAttrIdx = v >>> 16;
+                final int nameAndTypeIndex = v & 0xFFFF;                
+                final VmConstNameAndType nameAndType = cp.getConstNameAndType(nameAndTypeIndex);                                                  
+                final VmConstDynamicMethodRef constDynamicMethodRef = new VmConstDynamicMethodRef(nameAndType.getName(), nameAndType.getType());
+            	cp.setConstDynamicMethodRef(i, constDynamicMethodRef);
+            	
+            	List<Integer> list = dynamicMethods.get(bootstrapMethodAttrIdx);
+            	
+            	if (list == null) {
+            		list = new ArrayList<Integer>();
+            		dynamicMethods.put(bootstrapMethodAttrIdx, list);
+            	}
+            	list.add(i);
+            }
+        }
+        
         // Cleanup the unwantend entries
         for (int i = 1; i < cpcount; i++) {
             switch (tags[i]) {
@@ -397,6 +469,8 @@ public final class ClassDecoder {
                 classModifiers, protectionDomain);
         }
         cls.setCp(cp);
+        
+        clc.addLoadedClass(clsName, cls);
 
         // Determine if we can safely align the fields
         //int pragmaFlags = 0;
@@ -421,7 +495,8 @@ public final class ClassDecoder {
         String sourceFile = null;
         String signature = null;
         for (int a = 0; a < acount; a++) {
-            final String attrName = cp.getUTF8(data.getChar());
+        	final int index = data.getChar();
+            final String attrName = cp.getUTF8(index);
             final int length = data.getInt();
             if (VmArray.equals(RuntimeVisibleAnnotationsAttrName, attrName)) {
                 byte[] buf = new byte[length];
@@ -435,20 +510,23 @@ public final class ClassDecoder {
                 sourceFile = cp.getUTF8(data.getChar());
             } else if (VmArray.equals(SignatureAttrName, attrName)) {
                 signature = cp.getUTF8(data.getChar());
+            } else if ("BootstrapMethods".contentEquals(attrName)) {
+            	readBootstrapMethods(data, cp, cls, dynamicMethods);
             } else {
                 skip(data, length);
             }
         }
-        cls.setRuntimeAnnotations(rVisAnn);
+        //cls.setRuntimeAnnotations(rVisAnn);
         cls.setSourceFile(sourceFile);
         cls.setSignature(signature);
+        
         if (rInvisAnn != null) {
             cls.addPragmaFlags(getClassPragmaFlags(rInvisAnn, clsName));
         }
         if (rVisAnn != null) {
             cls.addPragmaFlags(getClassPragmaFlags(rVisAnn, clsName));
         }
-
+        
         // Create the fields
         if (fieldData != null) {
             createFields(cls, fieldData, sharedStatics, isolatedStatics,
@@ -456,6 +534,32 @@ public final class ClassDecoder {
         }
 
         return cls;
+    }
+    
+    private static void readBootstrapMethods(ByteBuffer data, VmCP cp, VmType cls, final Map<Integer, List<Integer>> dynamicMethods) {
+    	final int numBootstrapMethod = data.getChar();    
+    	
+    	for (int m = 0; m < numBootstrapMethod; m++) {
+    		final int bootstrapMethodRef = data.getChar();
+    		final int numBootstrapMethodArgs = data.getChar();
+    		
+    		for (int a = 0; a < numBootstrapMethodArgs; a++) {
+    			data.getChar();	
+    		}    		
+
+			final VmConstMethodHandle constMethodHandle = cp.getConstMethodHandle(bootstrapMethodRef);
+    		
+    		final List<Integer> list = dynamicMethods.get(m);
+    		
+    		if (list != null) {
+    			
+    			for (Integer index : list) {
+					final VmConstDynamicMethodRef constDynamicMethodRef = cp.getConstDynamicMethodRef(index);
+    				constDynamicMethodRef.setMethodHandle(constMethodHandle);
+    				constDynamicMethodRef.setNumberBootstrapMethodArgs(numBootstrapMethodArgs);	
+    			}
+    		}
+    	}
     }
 
     /**
@@ -494,7 +598,11 @@ public final class ClassDecoder {
         try {
             nativeType = cl.loadClass(nativeClassName, false);
         } catch (ClassNotFoundException ex) {
+        	ex.printStackTrace();
+        	
             if (verbose) {
+            	BootLogInstance.get().error("CNFE:::", ex);
+            	
                 BootLogInstance.get().error("Native class replacement (" + nativeClassName
                     + ") not found");
             }
@@ -509,6 +617,8 @@ public final class ClassDecoder {
         final VmMethod nativeMethod = nativeType.getNativeMethodReplacement(method.getName(), signature);
 
         if (nativeMethod == null) {
+        	final List<String> names = nativeType.getMethodNames();
+        	
             if (verbose) {
                 BootLogInstance.get().error("Native method replacement (" + method
                     + ") not found");
@@ -681,7 +791,7 @@ public final class ClassDecoder {
      * @param slotSize
      * @param pragmaFlags
      */
-    private static void createFields(VmType<?> cls, FieldData[] fieldDatas,
+    public static void createFields(VmType<?> cls, FieldData[] fieldDatas,
                                      VmSharedStatics sharedStatics, VmIsolatedStatics isolatedStatics,
                                      int slotSize, int pragmaFlags) {
         final int fcount = fieldDatas.length;
@@ -754,7 +864,7 @@ public final class ClassDecoder {
                     }
                 }
                 fs = new VmStaticField(name, signature, modifiers, staticsIdx,
-                    cls, slotSize, shared);
+                    cls, slotSize, shared, fd.constantValue);
             } else {
                 staticsIdx = -1;
                 statics = null;
@@ -916,7 +1026,8 @@ public final class ClassDecoder {
             for (int i = 0; i < mcount; i++) {
                 final int modifiers = data.getChar();
                 final String name = cp.getUTF8(data.getChar());
-                final String signature = cp.getUTF8(data.getChar());
+                final int signatureIndex = data.getChar();
+                final String signature = cp.getUTF8(signatureIndex);
                 final boolean isStatic = ((modifiers & Modifier.ACC_STATIC) != 0);
 
                 final VmMethod mts;
@@ -955,51 +1066,47 @@ public final class ClassDecoder {
                         //todo will get obsolate with openjdk based annotation support
                         //rVisAnn = readRuntimeAnnotations(data, cp, true, cl);
                         rVisAnn = readRuntimeAnnotations2(data, cp, true, cl, cls);
-
+                        //skip(data,length);
                     } else if (VmArray.equals(RuntimeInvisibleAnnotationsAttrName, attrName)) {
-                        rInvisAnn = readRuntimeAnnotations(data, cp, false, cl);
+                        //rInvisAnn = readRuntimeAnnotations(data, cp, false, cl);
+                    	//skipAnnotations(data, length);
+                    	skip(data,length);
                     } else if (VmArray.equals(RuntimeVisibleParameterAnnotationsAttrName, attrName)) {
 
                         byte[] buf = new byte[length];
                         data.slice().get(buf);
                         mts.setRawParameterAnnotations(buf);
                         //todo will get obsolate with openjdk based annotation support
-                        readRuntimeParameterAnnotations(data, cp, true, cl);
+                        //readRuntimeParameterAnnotations(data, cp, true, cl);
+                        //skipParameterAnnotations(data, length);
+                        skip(data,length);
                     } else if (VmArray.equals(RuntimeInvisibleParameterAnnotationsAttrName, attrName)) {
-                        readRuntimeParameterAnnotations(data, cp, false, cl);
+                        //readRuntimeParameterAnnotations(data, cp, false, cl);
+//                    	skipParameterAnnotations(data, length);
+                    	skip(data,length);
                     } else if (VmArray.equals(AnnotationDefaultAttrName, attrName)) {
                         //todo will get obsolate with openjdk based annotation support
                         byte[] buf = new byte[length];
                         data.slice().get(buf);
                         mts.setRawAnnotationDefault(buf);
-
-                        Class r_class;
-                        VmType vtm = mts.getReturnType();
-                        if (vtm.isPrimitive()) {
-                            r_class = getClassForJvmType(vtm.getJvmType());
-                        } else {
-                            try {
-                                r_class = Class.forName(vtm.getName(), false, vtm.getLoader().asClassLoader());
-                            } catch (ClassNotFoundException cnf) {
-                                throw new RuntimeException(cnf);
-                            }
-                        }
-                        Object defo = AnnotationParser.parseMemberValue(r_class, data, new VmConstantPool(cls),
-                            VmUtils.isRunningVm() ? cls.asClass() : cls.asClassDuringBootstrap());
-                        mts.setAnnotationDefault(defo);
+                        skip(data,length);
                     } else {
                         skip(data, length);
                     }
                 }
+                
                 mts.setRuntimeAnnotations(rVisAnn);
                 if (rVisAnn != null) {
                     mts.addPragmaFlags(getMethodPragmaFlags(rVisAnn, cls
                         .getName()));
                 }
+                /*
                 if (rInvisAnn != null) {
                     mts.addPragmaFlags(getMethodPragmaFlags(rInvisAnn, cls
                         .getName()));
                 }
+                */
+                                
                 if ((modifiers & Modifier.ACC_NATIVE) != 0) {
                     final VmByteCode bc = getNativeCodeReplacement(mts, cl,
                         rejectNatives);
@@ -1017,7 +1124,7 @@ public final class ClassDecoder {
         }
     }
 
-    private static Class getClassForJvmType(int type) {
+    private static Class<?> getClassForJvmType(int type) {
         switch (type) {
             case JvmType.BOOLEAN:
                 return boolean.class;
@@ -1040,6 +1147,18 @@ public final class ClassDecoder {
             default:
                 throw new IllegalArgumentException("Invalid JVM type: " + type);
         }
+    }
+    
+    private static void skipAnnotations(final ByteBuffer data, final int attributeLength) {
+    	data.getChar(); //num annotations.
+    	final int position = data.position();
+    	data.position(position + attributeLength);
+    }
+    
+    private static void skipParameterAnnotations(final ByteBuffer data, final int attributeLength) {
+    	data.get(); //num parameters
+    	final int position = data.position();
+    	data.position(position + attributeLength); 
     }
 
     /**
@@ -1086,7 +1205,7 @@ public final class ClassDecoder {
         final int numAnn = data.getChar();
         final VmAnnotation[] arr = new VmAnnotation[numAnn];
         for (int i = 0; i < numAnn; i++) {
-            arr[i] = readAnnotation2(data, cp, visible, loader, vmtype);
+            arr[i] = readAnnotation3(data, cp, visible, loader, vmtype);
         }
         return arr;
     }
@@ -1118,7 +1237,7 @@ public final class ClassDecoder {
      * @param annotations
      * @param className
      */
-    private static int getClassPragmaFlags(VmAnnotation[] annotations,
+    public static int getClassPragmaFlags(VmAnnotation[] annotations,
                                            String className) {
         int flags = 0;
         for (VmAnnotation a : annotations) {
@@ -1138,6 +1257,30 @@ public final class ClassDecoder {
             }
         }
         return flags;
+    }
+    
+    public static int getClassPragmaFlags(String[] annotations,
+    		String className) {
+		int flags = 0;
+		
+		for (String typeDescr : annotations) {
+			
+			for (PragmaAnnotation ma : CLASS_ANNOTATIONS) {
+				if (ma.typeDescr.equals(typeDescr)) {
+					ma.checkPragmaAllowed(className);
+					flags |= ma.flags;
+				}
+			}
+		}
+		
+		for (String name : SHARED_STATICS_CLASSNAMES) {
+			if (className.equals(name)) {
+				System.out.println("FOUND IT: " + className);
+				flags |= TypePragmaFlags.SHAREDSTATICS;
+				break;
+			}
+		}
+		return flags;
     }
 
     /**
@@ -1219,8 +1362,9 @@ public final class ClassDecoder {
                         }
                     }
 
-                    Class r_class;
+                    //Class r_class;
                     VmType vtm = mts.getReturnType();
+                    /*
                     if (vtm.isPrimitive()) {
                         r_class = getClassForJvmType(vtm.getJvmType());
                     } else {
@@ -1230,14 +1374,17 @@ public final class ClassDecoder {
                             throw new RuntimeException(cnf);
                         }
                     }
-                    Class container;
+                    */
+                    /* Class container;
                     try {
 
                         container = annType.getLoader().asClassLoader().loadClass(annType.getName());
                     } catch (ClassNotFoundException cnf) {
                         throw new RuntimeException(cnf);
                     }
-                    defo = AnnotationParser.parseMemberValue(r_class, data, new VmConstantPool(vmType), container);
+                    */
+
+                    //defo = AnnotationParser.parseMemberValue(r_class, data, new VmConstantPool(vmType), container);
 
                     if (defo instanceof ExceptionProxy)
                         throw new RuntimeException("Error parsing annotation parameter value (annotation= " +
@@ -1259,6 +1406,24 @@ public final class ClassDecoder {
             }
         }
         return new VmAnnotation(typeDescr, values);
+    }
+    
+    private static VmAnnotation readAnnotation3(ByteBuffer data, VmCP cp,
+            boolean visible, VmClassLoader loader, VmType vmType) {
+    	final int typeIndex = data.getChar();
+    	final String annotName = cp.getUTF8(typeIndex);
+    	final int numElementValuePairs = data.getChar();
+    	
+    	List<VmAnnotation.ElementValue> values = new ArrayList<>();
+    	
+    	for (int i = 0; i < numElementValuePairs; i++) {
+    		int elementNameIndex = data.getChar();
+    		final Object value = readElementValue(data, cp);
+    		final String elemName = cp.getUTF8(elementNameIndex);
+    		values.add(new VmAnnotation.ElementValue(elemName, value));
+    	}
+    	
+    	return new VmAnnotation(annotName, values.toArray(new VmAnnotation.ElementValue[0]));
     }
 
     /**
@@ -1425,7 +1590,7 @@ public final class ClassDecoder {
         }
     }
 
-    private static final class PragmaAnnotation {
+    public static final class PragmaAnnotation {
         private static final String[] EMPTY_PACKAGES = new String[0];
         public final char flags;
 
@@ -1470,7 +1635,7 @@ public final class ClassDecoder {
         }
     }
 
-    private static final class FieldData {
+    public static final class FieldData {
         public final String name;
 
         public final String signature;

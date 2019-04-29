@@ -188,7 +188,7 @@ public abstract class AsyncCommandInvoker implements SimpleCommandInvoker,
 
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
-                    threadProcess.stop(new ThreadDeath());
+                    threadProcess.stop();
                     return null;
                 }
             });

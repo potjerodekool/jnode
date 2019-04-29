@@ -39,11 +39,11 @@ import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.FileSystemType;
 import org.jnode.fs.service.FileSystemService;
-import org.jnode.java.io.VMFileSystemAPI;
 import org.jnode.naming.InitialNaming;
 import org.jnode.plugin.Plugin;
 import org.jnode.plugin.PluginDescriptor;
 import org.jnode.plugin.PluginException;
+import org.jnode.support.VMFileSystemAPI;
 
 /**
  * @author epr

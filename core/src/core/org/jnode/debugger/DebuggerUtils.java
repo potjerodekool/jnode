@@ -22,6 +22,8 @@ package org.jnode.debugger;
 
 import java.io.PrintStream;
 
+import org.jnode.vm.scheduler.ThreadHelper;
+
 
 /**
  * @author Ewout Prangsma (epr@users.sourceforge.net)

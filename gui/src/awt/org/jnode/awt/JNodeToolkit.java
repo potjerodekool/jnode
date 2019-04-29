@@ -200,7 +200,7 @@ public abstract class JNodeToolkit extends ClasspathToolkit implements FrameBuff
             throw new AWTError("Toolkit is not a JNodeToolkit");
         }
         ((JNodeToolkit) tk).decRefCount(true);
-        Toolkit.clearDefaultToolkit();
+        //TODO Toolkit.clearDefaultToolkit();
     }
 
     public static void refreshGui() {

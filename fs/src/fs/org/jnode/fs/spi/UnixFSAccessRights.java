@@ -26,9 +26,9 @@ import java.security.acl.Group;
 import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FileSystem;
 
-import sun.security.acl.GroupImpl;
+//TODO import sun.security.acl.GroupImpl;
 
-import com.sun.security.auth.UserPrincipal;
+//TODO import com.sun.security.auth.UserPrincipal;
 
 /**
  * 

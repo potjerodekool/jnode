@@ -23,7 +23,7 @@
 <fragment id="javax.ext.tools"
   name="The javax.tools.* and related classes."
   version="@VERSION@"
-  plugin-id="rt"
+  plugin-id="java.compiler"
   plugin-version="@VERSION@"
   provider-name="Sun Microsystems"
   provider-url="http://sun.com"
@@ -34,6 +34,7 @@
   </requires>
     
   <runtime>
+  <!-- 
     <library name="classlib.jar">
       <export name="javax.annotation.processing.*"/>
       <export name="javax.lang.model.*"/>
@@ -42,6 +43,7 @@
       <export name="javax.lang.model.util.*"/>
       <export name="javax.tools.*"/>
     </library>
+     -->
   </runtime>
 
 </fragment>

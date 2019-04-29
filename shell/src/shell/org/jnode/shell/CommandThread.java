@@ -61,10 +61,8 @@ public interface CommandThread {
 
     /**
      * Tell the thread to stop.  (Temporary API / unspecified semantics)
-     * 
-     * @param threadDeath
      */
-    public void stop(ThreadDeath threadDeath);
+    public void stop();
 
     /**
      * The invoker will wait for this thread to terminate.

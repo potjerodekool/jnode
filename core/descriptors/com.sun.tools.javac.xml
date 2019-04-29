@@ -32,6 +32,7 @@
     <import plugin="javax.ext.tools"/>
   </requires>
   <runtime>
+  	<!-- 
     <library name="classlib.jar">
       <export name="com.sun.mirror.apt.*"/>
       <export name="com.sun.mirror.declaration.*"/>
@@ -80,6 +81,7 @@
       <export name="com.sun.tools.javadoc.*"/>
       <export name="com.sun.tools.javadoc.resources.*"/>
     </library>
+     -->
   </runtime>
 
   <extension point="org.jnode.shell.aliases">

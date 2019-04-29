@@ -32,6 +32,9 @@
   <path id="my-cp">
     <pathelement location="${jnode-core.jar}"/>
     <pathelement location="${jnode-shell.jar}"/>
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
+  	<pathelement location="../core/lib/openjdk/java.desktop.jar"/>
+  	<pathelement location="../core/lib/openjdk/java.prefs.jar"/>
     <path refid="cp"/>
   </path>
 
@@ -40,22 +43,37 @@
     <mkdir dir="${my-classes.dir}"/>
     <mkdir dir="${my-testclasses.dir}"/>
     <jnode.copy-descriptors/>
+  	
+  	<copy todir="build/src/org.jnode.gui">
+		<fileset dir="${my-src.dir}/awt"/>
+		<fileset dir="${my-src.dir}/desktop"/>
+	    <fileset dir="${my-src.dir}/driver"/>
+	    <fileset dir="${my-src.dir}/thinlet"/>
+	    <fileset dir="${my-src.dir}/font"/>
+  		<fileset dir="src/org.jnode.gui" />
+  	</copy>
   </target>
-
+	
 <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
     <jnode.compile>
+    	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" />
+    	<!--
 	  <src path="${my-src.dir}/awt"/>
 	  <src path="${my-src.dir}/desktop"/>
       <src path="${my-src.dir}/driver"/>
       <src path="${my-src.dir}/thinlet"/>
       <src path="${my-src.dir}/font"/>  
       <classpath refid="my-cp"/>
+    	-->
     </jnode.compile>
+  	<!--
     <jnode.compile.test>
 	  <src path="${my-src.dir}/test"/>
       <classpath refid="my-cp"/>
     </jnode.compile.test>
+    -->
     
 	<!-- copy properties files -->
     <copy todir="${my-classes.dir}/org/jnode/font/bdf/">

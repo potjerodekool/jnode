@@ -20,8 +20,13 @@
  
 package org.jnode.awt.swingpeers;
 
+import java.awt.BufferCapabilities.FlipContents;
+import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.GraphicsConfiguration;
 import java.awt.Window;
+import java.awt.event.FocusEvent.Cause;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.DialogPeer;
 import java.util.List;
 
@@ -57,6 +62,60 @@ final class SwingDialogPeer extends SwingBaseWindowPeer<Dialog, SwingDialog>
     public void blockWindows(List<Window> windows) {
         //TODO implement it
     }
+
+	@Override
+	public void repositionSecurityWarning() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOpacity(float arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOpaque(boolean arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAlwaysOnTopState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWindow() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
 final class SwingDialog extends SwingBaseWindow<Dialog, SwingDialog> {

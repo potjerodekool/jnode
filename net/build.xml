@@ -36,6 +36,7 @@
     <pathelement location="${dnsjava.jar}"/>
     <pathelement location="${jsch.jar}"/>
   	<pathelement location="${oncrpc.jar}"/>
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
     <path refid="cp"/>
   </path>
 
@@ -44,19 +45,31 @@
     <mkdir dir="${my-classes.dir}"/>
     <mkdir dir="${my-testclasses.dir}"/>
     <jnode.copy-descriptors/>
+  	
+  	<copy todir="build/src/org.jnode.net">
+  		<fileset dir="${my-src.dir}/net" />
+  		<fileset dir="${my-src.dir}/driver" />
+  		<fileset dir="${my-src.dir}/org.jnode.net" />
+  	</copy>
   </target>
 
   <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
     <jnode.compile>
+    	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" />
+    	<!--
       <src path="${my-src.dir}/net"/>
       <src path="${my-src.dir}/driver"/>
       <classpath refid="my-cp"/>
+    	-->
     </jnode.compile>
+  	<!--
     <jnode.compile.test>
       <src path="${my-src.dir}/test"/>
       <classpath refid="my-cp"/>
     </jnode.compile.test>
+  	-->
     </target>
 
   <!-- Assemble the jarfile -->

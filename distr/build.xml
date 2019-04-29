@@ -31,8 +31,10 @@
 <!-- Subproject specific classpath -->
   <path id="my-cp">
     <pathelement location="${jnode-core.jar}"/>
+  	<!--
     <pathelement location="${jnode-gui.jar}"/>
     <pathelement location="${jnode-textui.jar}"/>
+    -->
     <pathelement location="${jnode-shell.jar}"/>
   	<pathelement location="${jnode-fs.jar}"/>
   	
@@ -43,6 +45,8 @@
   	<pathelement location="${jetty-util.jar}"/>
   	
   	<pathelement location="${jawk.jar}"/>
+  	
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
 
     <path refid="cp"/>
   </path>
@@ -58,16 +62,22 @@
 <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
     <jnode.compile>
+    	<!--
       <src path="${my-src.dir}/apps"/>
+      
       <src path="${my-src.dir}/emu"/>
+      -->
       <src path="${my-src.dir}/install"/>
       <classpath refid="my-cp"/>
     </jnode.compile>
+    	
+    	<!--
     <jnode.compile.test>
       <src path="${my-src.dir}/test"/>
       <classpath refid="my-cp"/>
       <classpath refid="cp-test"/>
     </jnode.compile.test>
+  	-->
     
 	<!-- copy properties files -->
     <copy todir="${my-classes.dir}/org/jnode/apps/telnetd">

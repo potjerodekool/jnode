@@ -35,6 +35,9 @@
     <pathelement location="${jnode-fs.jar}"/>
     <pathelement location="${jnode-shell.jar}"/>
     <pathelement location="${jnode-net.jar}"/>
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
+  	<pathelement location="../core/lib/openjdk/java.desktop.jar"/>
+  	<pathelement location="..//core/lib/ant.jar"/>
     <path refid="cp"/>
   </path>
   
@@ -49,13 +52,22 @@
     <copy todir="${my-testclasses.dir}">
         <fileset dir="${my-src.dir}/test" excludes="**/*.java,**/package.html"/>
     </copy>
+  	
+  		<copy todir="build/src/org.jnode.cli">
+  			<fileset dir="${my-src.dir}/commands" />
+  			<fileset dir="${my-src.dir}/org.jnode.cli" />
+  		</copy>
     </target>
   
 <!-- Compile subproject -->
   <target name="compile" depends="prepare">
     <jnode.compile>
+    	<!--
       <src path="${my-src.dir}/commands"/>
-      <classpath refid="my-cp"/>
+      -->
+    	
+    	<modulesourcepath path="build/src/" />
+  		<upgrademodulepath refid="my-cp" />
     </jnode.compile>
     <jnode.compile.test>
       <src path="${my-src.dir}/test"/>

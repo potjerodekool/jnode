@@ -30,6 +30,7 @@ import org.jnode.shell.AbstractCommand;
 import org.jnode.shell.syntax.Argument;
 import org.jnode.shell.syntax.FlagArgument;
 import org.jnode.shell.syntax.ThreadNameArgument;
+import org.jnode.vm.scheduler.ThreadHelper;
 import org.jnode.vm.scheduler.VmThread;
 
 /**

@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/awt"/>
+	<classpathentry kind="src" path="src/org.jnode.gui"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/font"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/desktop"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/driver"/>
 	<classpathentry excluding="**/.svn/**" kind="src" output="build/testclasses" path="src/test"/>
 	<classpathentry excluding="**/.svn/**" kind="src" path="src/thinlet"/>
-	<classpathentry kind="src" path="/core"/>
-	<classpathentry kind="src" path="/shell"/>
-	<classpathentry kind="lib" path="/core/lib/log4j-1.2.8.jar"/>
-	<classpathentry kind="lib" path="/all/lib/classlib.jar" sourcepath="/all/lib/classlib-src.jar"/>
+	<classpathentry kind="src" path="/core">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/shell">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/core/lib/log4j-1.2.8.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/core/lib/openjdk/java.naming.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/core/lib/openjdk/java.desktop.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/core/lib/openjdk/java.prefs.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/core/lib/openjdk/java.datatransfer.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -39,7 +39,7 @@ public class VmConstMethodRef extends VmConstMemberRef {
      * @param classIndex
      * @param nameTypeIndex
      */
-    VmConstMethodRef(VmConstClass constClass, String name, String descriptor) {
+    public VmConstMethodRef(VmConstClass constClass, String name, String descriptor) {
         super(constClass, name, descriptor);
     }
 
@@ -53,6 +53,7 @@ public class VmConstMethodRef extends VmConstMemberRef {
         if (vmClass.isInterface()) {
             throw new IncompatibleClassChangeError(getClassName() + " must be a class");
         }
+        
         final VmMethod vmMethod = vmClass.getMethod(getName(), getSignature());
         if (vmMethod == null) {
             throw new NoSuchMethodError(toString() + " in class " + getClassName());

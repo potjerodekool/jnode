@@ -147,7 +147,7 @@ public class ProtocolHandlerFactoryPlugin extends Plugin implements
                 final String className = elem.getAttribute("class");
                 if ((protocol != null) && (className != null)) {
                     try {
-                        final Class<? extends URLStreamHandler> cls = cl.loadClass(className);
+                        final Class<? extends URLStreamHandler> cls = (Class<? extends URLStreamHandler>) cl.loadClass(className);
                         handlerClasses.put(protocol, cls);
                     } catch (ClassNotFoundException ex) {
                         BootLogInstance.get().error("Cannot load protocol handler class " + className);

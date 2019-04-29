@@ -31,11 +31,10 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.CodeVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * Class for searching main methods in a jar.
@@ -130,8 +129,7 @@ public class MainFinder {
         throws ClassNotFoundException, SecurityException, NoSuchMethodException, IOException {
         ClassReader cr = new ClassReader(classStream);
         MainClassVisitor mcv = new MainClassVisitor(NullClassVisitor.INSTANCE);
-        cr.accept(mcv, true);
-        
+        cr.accept(mcv, 0);        
         return mcv.hasMainMethod();
     }
 
@@ -141,17 +139,16 @@ public class MainFinder {
      * @author fabien
      *
      */
-    static class MainClassVisitor extends ClassAdapter {
+    static class MainClassVisitor extends ClassVisitor {
         private boolean mainMethod = false;
         
         public MainClassVisitor(ClassVisitor visitor) {
-            super(visitor);
+            super(Opcodes.ASM6, visitor);
         }
 
         @Override
-        public CodeVisitor visitMethod(int access, String name, String signature, String[] exceptions,
-                Attribute arg4) {
-            if ("main".equals(name) && "([Ljava/lang/String;)V".equals(signature)) {
+        public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        	if ("main".equals(name) && "([Ljava/lang/String;)V".equals(signature)) {
                 mainMethod = true;
             }
             return null;
@@ -167,34 +164,12 @@ public class MainFinder {
      * @author fabien
      *
      */
-    static class NullClassVisitor implements ClassVisitor {
-        private static final NullClassVisitor INSTANCE = new NullClassVisitor();
-        
-        @Override
-        public void visit(int arg0, int arg1, String arg2, String arg3, String[] arg4, String arg5) {
-        }
+    static class NullClassVisitor extends ClassVisitor {
 
-        @Override
-        public void visitAttribute(Attribute arg0) {
-        }
-
-        @Override
-        public void visitEnd() {
-        }
-
-        @Override
-        public void visitField(int arg0, String arg1, String arg2, Object arg3, Attribute arg4) {
-        }
-
-        @Override
-        public void visitInnerClass(String arg0, String arg1, String arg2, int arg3) {
-        }
-
-        @Override
-        public CodeVisitor visitMethod(int arg0, String arg1, String arg2, String[] arg3,
-                Attribute arg4) {
-            return null;
-        }
-        
+		private static final NullClassVisitor INSTANCE = new NullClassVisitor();
+		
+        public NullClassVisitor() {
+			super(Opcodes.ASM6);
+		}
     }
 }

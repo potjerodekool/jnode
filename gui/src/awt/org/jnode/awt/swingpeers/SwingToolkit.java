@@ -156,12 +156,15 @@ public final class SwingToolkit extends JNodeToolkit {
         if (parent == null) {
             return null;
         } else {
+        	/*TODO
             final ComponentPeer parentPeer = parent.getPeer();
             if (parentPeer instanceof ISwingContainerPeer) {
                 return (ISwingContainerPeer) parentPeer;
             } else {
                 return getContainerPeer(parent);
             }
+            */
+        	return null;
         }
     }
 
@@ -458,6 +461,7 @@ public final class SwingToolkit extends JNodeToolkit {
                 if (w instanceof Frame) {
                     MenuBar mb = ((Frame) w).getMenuBar();
                     if (mb != null) {
+                    	/*TODO
                         JMenuBar jmb = ((SwingMenuBarPeer) mb.getPeer()).jComponent;
                         Point p = new Point(x, y);
                         SwingUtilities.convertPointFromScreen(p, jmb);
@@ -465,6 +469,7 @@ public final class SwingToolkit extends JNodeToolkit {
                         if (comp != null && (comp != jmb || jmb.contains(p.x, p.y))) {
                             return comp;
                         }
+                        */
                     }
                 }
                 Point p = new Point(x, y);
@@ -504,6 +509,7 @@ public final class SwingToolkit extends JNodeToolkit {
         Window w = SwingUtilities.getWindowAncestor(comp);
         if (w == null) return;
 
+        /*TODO 
         WindowPeer p = (WindowPeer) w.getPeer();
         if (p instanceof SwingBaseWindowPeer) {
             JInternalFrame f = (JInternalFrame) ((SwingBaseWindowPeer<?, ?>) p).peerComponent;
@@ -515,6 +521,7 @@ public final class SwingToolkit extends JNodeToolkit {
                 }
             }
         }
+        */
     }
 
     /**

@@ -29,7 +29,7 @@ import org.jnode.vm.VmAddress;
 import org.jnode.vm.facade.VmUtils;
 import org.jnode.vm.isolate.VmIsolateLocal;
 import org.vmmagic.unboxed.Address;
-import sun.reflect.ReflectionFactory;
+import jdk.internal.reflect.ReflectionFactory;;
 
 @MagicPermission
 public abstract class VmMethod extends VmMember implements VmSharedStaticsEntry {
@@ -302,7 +302,7 @@ public abstract class VmMethod extends VmMember implements VmSharedStaticsEntry 
         final VmMethod method = type.getDeclaredMethod(methodIndex);
         method.recompile();
     }
-
+    
     public final boolean isAbstract() {
         return Modifier.isAbstract(getModifiers());
     }

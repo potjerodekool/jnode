@@ -43,8 +43,10 @@ import org.jnode.vm.classmgr.VmArray;
 import org.jnode.vm.classmgr.VmClassLoader;
 import org.jnode.vm.classmgr.VmClassType;
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
+import org.jnode.vm.classmgr.VmConstMethodHandle;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 import org.jnode.vm.classmgr.VmField;
@@ -3546,6 +3548,11 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor implements
                 // Result is already on the stack.
             }
         }
+    }
+        
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constMethodHandle) {
+    	throw new UnsupportedOperationException("TODO");    	
     }
 
     /**

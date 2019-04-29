@@ -35,6 +35,7 @@ import java.util.List;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 import org.jnode.nanoxml.XMLElement;
+import org.jnode.nanoxml.XMLParseException;
 import org.jnode.plugin.PluginException;
 
 /**

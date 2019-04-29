@@ -37,8 +37,8 @@
 	<property name="jnode-ver" value="0.2.9-dev"/>
 
 	<!-- Java target and source version -->
-	<property name="java.target" value="1.6"/>
-	<property name="java.source" value="1.6"/>
+	<property name="java.target" value="11"/>
+	<property name="java.source" value="11"/>
 	<property name="java.encoding" value="US-ASCII"/>
 
 	<property name="build.dir" value="${basedir}/build"/>
@@ -53,20 +53,20 @@
 
 	<property name="jnode-builder.jar" value="${build.dir}/descriptors/jnode-builder.jar"/>
 	<property name="jnode-configure.jar" value="${build.dir}/descriptors/jnode-configure.jar"/>
-	<property name="jnode-core.jar" value="${root.dir}/core/build/classes"/>
+	<property name="jnode-core.jar" value="${root.dir}/core/build/classes/org.jnode.core"/>
 	<property name="jnode-core-test.jar" value="${root.dir}/core/build/testclasses"/>
 	<property name="jnode-distr.jar" value="${root.dir}/distr/build/classes"/>
 	<property name="jnode-distr-test.jar" value="${root.dir}/distr/build/testclasses"/>
-	<property name="jnode-fs.jar" value="${root.dir}/fs/build/classes"/>
+	<property name="jnode-fs.jar" value="${root.dir}/fs/build/classes/org.jnode.fs"/>
 	<property name="jnode-fs-test.jar" value="${root.dir}/fs/build/testclasses"/>
 	<property name="jnode-gui.jar" value="${root.dir}/gui/build/classes"/>
 	<property name="jnode-gui-test.jar" value="${root.dir}/gui/build/testclasses"/>
 	<property name="thinlet.jar" value="${root.dir}/gui/build/classes"/>
 	<property name="jnode-textui.jar" value="${root.dir}/textui/build/classes"/>
 	<property name="jnode-textui-test.jar" value="${root.dir}/textui/build/testclasses"/>
-	<property name="jnode-net.jar" value="${root.dir}/net/build/classes"/>
+	<property name="jnode-net.jar" value="${root.dir}/net/build/classes/org.jnode.net"/>
 	<property name="jnode-net-test.jar" value="${root.dir}/net/build/testclasses"/>
-	<property name="jnode-shell.jar" value="${root.dir}/shell/build/classes"/>
+	<property name="jnode-shell.jar" value="${root.dir}/shell/build/classes/org.jnode.shell"/>
 	<property name="jnode-shell-test.jar" value="${root.dir}/shell/build/testclasses"/>
 	<property name="jnode-cli.jar" value="${root.dir}/cli/build/classes"/>
 	<property name="jnode-cli-test.jar" value="${root.dir}/cli/build/testclasses"/>
@@ -77,12 +77,20 @@
 	<property name="jnode-mmtk-ms.jar" value="${root.dir}/core/build/classes-plan/org.jnode.vm.memmgr.mmtk.ms"/>
 	<property name="jnode-mmtk-nogc.jar" value="${root.dir}/core/build/classes-plan/org.jnode.vm.memmgr.mmtk.nogc"/>
 
+	<!--
 	<property name="classlib.jar" value="${root.dir}/all/lib/classlib.jar"/>
 	<property name="classlib-src.jar" value="${root.dir}/all/lib/classlib-src.jar"/>
+	-->
+	
+	<property name="java.base.jar" value="${root.dir}/core/lib/openjdk/java.base.jar"/>	
+	<property name="java.xml.jar" value="${root.dir}/core/lib/openjdk/java.xml.jar"/>
+	<property name="java.naming.jar" value="${root.dir}/core/lib/openjdk/java.naming.jar"/>
+	<property name="java.prefs.jar" value="${root.dir}/core/lib/openjdk/java.prefs.jar"/>
+		
 	<property name="ant.jar" value="${root.dir}/core/lib/ant.jar"/>
 	<property name="ant-launcher.jar" value="${root.dir}/core/lib/ant-launcher.jar"/>
 	<property name="commons-net.jar" value="${root.dir}/core/lib/commons-net-3.3.jar"/>
-	<property name="dnsjava.jar" value="${root.dir}/net/lib/dnsjava-1.6.6.jar"/>
+	<property name="dnsjava.jar" value="${root.dir}/net/lib/dnsjava.jar"/>
 	<property name="jsch.jar" value="${root.dir}/net/lib/jsch-0.1.24.jar"/>
 	<property name="junit.jar" value="${root.dir}/core/lib/junit-4.5.jar"/>
 	<property name="mmtk.jar" value="${root.dir}/core/lib/mmtk/mmtk.jar"/>
@@ -112,12 +120,20 @@
 	<!-- libraries needed to run tests -->
 	<property name="jmock-cglib.jar" value="${root.dir}/core/lib/jmock-cglib-1.0.1.jar"/>
 	<property name="jmock.jar" value="${root.dir}/core/lib/jmock-1.0.1.jar"/>
-	<property name="cglib.jar" value="${root.dir}/core/lib/cglib-2.1.jar"/>
-	<property name="asm.jar" value="${root.dir}/core/lib/asm-1.5.3.jar"/>
-	<property name="asm-attrs.jar" value="${root.dir}/core/lib/asm-attrs-1.5.3.jar"/>
-	<property name="asm-util.jar" value="${root.dir}/core/lib/asm-util-1.5.3.jar"/>
+	<property name="cglib.jar" value="${root.dir}/core/lib/cglib-3.2.10.jar"/>
+	<property name="asm.jar" value="${root.dir}/core/lib/asm-7.0-beta-20180929.073030-16.jar"/>
+	<property name="asm-util.jar" value="${root.dir}/core/lib/asm-util-7.0-beta-20180929.073051-16.jar"/>
+	
+	<property name="asm-analysis.jar" value="${root.dir}/core/lib/asm-analysis-7.1.jar"/>
+	<property name="asm-tree.jar" value="${root.dir}/core/lib/asm-tree-7.1.jar"/>
+	
+	<property name="asm-tree.jar" value="${root.dir}/core/lib/asm-tree-7.1.jar"/>
+	
 	<property name="mockito-all.jar" value="${root.dir}/core/lib/mockito-all-1.8.5.jar"/>
-
+	
+	<property name="mockito-core.jar" value="${root.dir}/core/lib/mockito-core-2.2.5.jar" />
+	<property name="objenesis.jar" value="${root.dir}/core/lib/objenesis-2.4.jar" />
+	
 	<property name="log4j.jar" value="${root.dir}/core/lib/log4j-1.2.8.jar"/>
 	<property name="beanshell.jar" value="${root.dir}/shell/lib/bsh-2.0b5.jar"/>
 	<property name="js.jar" value="${root.dir}/shell/lib/rhino1.6r5-jsr223.jar"/>
@@ -141,32 +157,47 @@
 	<property name="jnode-x86-class-list" value="${root.dir}/all/conf/x86-classes.txt"/>
 
 	<path id="cp">
+		<pathelement location="${jnode-core.jar}"/>
+		<!--
 		<pathelement location="${classlib.jar}"/>
+		-->
 		<pathelement location="${mmtk.jar}"/>
 		<pathelement location="${ant.jar}"/>
 		<pathelement location="${junit.jar}"/>
+		<pathelement location="${asm.jar}"/>
+		<pathelement location="${asm-util.jar}"/>		
+		<pathelement location="${cglib.jar}"/>
 		<pathelement location="${jmock.jar}"/>
 		<pathelement location="${jmock-cglib.jar}"/>
-		<pathelement location="${asm.jar}"/>
-		<pathelement location="${asm-attrs.jar}"/>
-		<pathelement location="${asm-util.jar}"/>
-		<pathelement location="${cglib.jar}"/>
+		
+		<pathelement location="${mockito-core.jar}"/>
+		<pathelement location="${objenesis.jar}"/>
+		
+		<pathelement location="../anttasks/build/jnode-ant.jar"/>
+		
+		<!--
 		<pathelement location="${mockito-all.jar}"/>
+		-->
 		<pathelement location="${log4j.jar}"/>
 		<pathelement location="${root.dir}/all/conf"/>
 		<pathelement location="${beanshell.jar}"/>
+		<!--
 		<pathelement location="${js.jar}"/>
+		-->
 		<pathelement location="${oncrpc.jar}"/>
 		<pathelement location="${edtftpj.jar}"/>
 		<pathelement location="${jcifs.jar}"/>
 		<pathelement location="${commons-net.jar}"/>
 		<pathelement location="${dnsjava.jar}"/>
-		<pathelement location="${mauve.jar}"/>
+		<!--
+		<pathelement location="${mauve.jar}"/>		
 		<pathelement location="${derby.jar}"/>
 		<pathelement location="${derbynet.jar}"/>
 		<pathelement location="${derbytools.jar}"/>
+		-->
 		<pathelement location="${iso9660.jar}"/>
 		<pathelement location="${sabre.jar}"/>
+		
 	</path>
 
 	<path id="cp-jnode">
@@ -181,6 +212,7 @@
 		<pathelement location="${thinlet.jar}"/>
 		<pathelement location="${jnode-textui.jar}"/>
 		<pathelement location="${bcel-5.1.jar}"/>
+		<pathelement location="../core/lib/openjdk/java.base.jar"/>
 		<path refid="cp"/>
 	</path>
 
@@ -230,6 +262,7 @@
 						<contains string="${java.runtime.version}" substring="1.6" casesensitive="false"/>
 						<contains string="${java.runtime.version}" substring="1.7" casesensitive="false"/>
 						<contains string="${java.runtime.version}" substring="1.8" casesensitive="false"/>
+						<contains string="${java.runtime.version}" substring="11." casesensitive="false"/>
 					</or>
 				</not>
 			</condition>
@@ -372,6 +405,11 @@
 		<plugin todir="${plugins.dir}" tmpdir="${build.dir}/tmp/plugins" pluginDir="${descriptors.dir}">
 			<packager userApplicationsDir="${user.applications.dir}" pathRefId="cp"/>
 
+			<libalias name="java.base.jar" alias="${java.base.jar}"/>
+			<libalias name="java.xml.jar" alias="${java.xml.jar}"/>
+			<libalias name="java.naming.jar" alias="${java.naming.jar}"/>
+			<libalias name="java.prefs.jar" alias="${java.prefs.jar}"/>
+			
 			<libalias name="jnode-core.jar" alias="${jnode-core.jar}"/>
 			<libalias name="jnode-distr.jar" alias="${jnode-distr.jar}"/>
 			<libalias name="jnode-fs.jar" alias="${jnode-fs.jar}"/>
@@ -397,7 +435,7 @@
 			<libalias name="mmtk.jar" alias="${mmtk.jar}"/>
 
 			<libalias name="commons-net.jar" alias="${commons-net.jar}"/>
-			<libalias name="dnsjava-1.6.6.jar" alias="${dnsjava.jar}"/>
+			<libalias name="dnsjava.jar" alias="${dnsjava.jar}"/>
 			<libalias name="jsch-0.1.24.jar" alias="${jsch.jar}"/>
 			<libalias name="log4j.jar" alias="${log4j.jar}"/>
 			<libalias name="beanshell.jar" alias="${beanshell.jar}"/>
@@ -409,8 +447,10 @@
 			<libalias name="jmock-1.0.1.jar" alias="${jmock.jar}"/>
 			<libalias name="jmock-cglib-1.0.1.jar" alias="${jmock-cglib.jar}"/>
 			<libalias name="asm.jar" alias="${asm.jar}"/>
+			<!--
 			<libalias name="asm-attrs.jar" alias="${asm-attrs.jar}"/>
 			<libalias name="asm-util.jar" alias="${asm-util.jar}"/>
+			-->
 			<libalias name="cglib.jar" alias="${cglib.jar}"/>
 			<libalias name="mauve.jar" alias="${mauve.jar}"/>
 			<libalias name="mockito-all-1.8.5.jar" alias="${mockito-all.jar}"/>
@@ -435,7 +475,9 @@
 			<libalias name="derbynet.jar" alias="${derbynet.jar}"/>
 			<libalias name="derbytools.jar" alias="${derbytools.jar}"/>
 
+			<!--
 			<libalias name="classlib.jar" alias="${classlib.jar}"/>
+			-->
 			
 			<descriptors dir="${descriptors.dir}/">
 				<include name="*.xml"/>
@@ -988,13 +1030,25 @@ clean             Remove all intermediate build results.
 	<target name="openjdk-annotate" depends="assemble-projects">
 		<taskdef name="oj-annotate" classname="org.jnode.ant.taskdefs.AnnotateTask" 
         		classpathref="cp-jnode"/>
-
+		<!--
+		<java classname="org.jnode.ant.taskdefs.AnnotateTask" fork="true">
+			<modulepath refid="cp-jnode" />
+			<arg line="-annotationFile ${root.dir}/all/conf/openjdk-annotations.properties"/>
+			<arg line="-buildStartTime ${hotswap.class.tstamp}"/>
+			<arg line="-pattern ${hotswap.class.tstamp.pattern}"/>
+			<arg line="-trace false"/>
+			<arg line="-failonerror true" />
+			<arg line="-basedir ${root.dir}/core/build/classes/org.jnode.core"/>
+		</java>
+		-->
+		
 		<oj-annotate annotationFile="${root.dir}/all/conf/openjdk-annotations.properties"
         			 buildStartTime="${hotswap.class.tstamp}"
                      pattern="${hotswap.class.tstamp.pattern}"
         			 trace="false"
                      failonerror="true"
-                     basedir="${root.dir}/core/build/classes"/>
+                     basedir="${root.dir}/core/build/classes/org.jnode.core"/>
+		
 	</target>
 
 	<!-- check that all native methods are properly implemented for JNode -->

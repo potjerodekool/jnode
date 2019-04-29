@@ -20,9 +20,12 @@
  
 package sun.management;
 
-import java.lang.management.ThreadInfo;
+import java.lang.Override;
+import java.lang.Thread;
+import java.lang.UnsupportedOperationException;
 import java.util.ArrayList;
 
+import org.jnode.java.lang.management.ThreadInfo;
 import org.jnode.vm.facade.VmThread;
 import org.jnode.vm.facade.VmThreadVisitor;
 import org.jnode.vm.facade.VmUtils;

@@ -115,12 +115,5 @@ abstract class VmAbstractClassLoader extends VmClassLoader {
     }
 
     protected abstract SelectorMap getSelectorMap();
-
-    /**
-     * Add a class that has been loaded.
-     *
-     * @param name
-     * @param cls
-     */
-    protected abstract void addLoadedClass(String name, VmType cls);
+    
 }

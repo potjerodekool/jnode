@@ -20,7 +20,6 @@
  
 package org.jnode.vm.classmgr;
 
-import gnu.java.lang.VMClassHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 

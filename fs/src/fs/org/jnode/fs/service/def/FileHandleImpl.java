@@ -26,7 +26,7 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 
 import org.jnode.fs.FSFile;
-import org.jnode.java.io.VMFileHandle;
+import org.jnode.support.VMFileHandle;
 
 /**
  * @author epr

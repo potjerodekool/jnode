@@ -21,7 +21,11 @@
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
+import java.awt.BufferCapabilities.FlipContents;
 import java.awt.Component;
+import java.awt.GraphicsConfiguration;
+import java.awt.event.FocusEvent.Cause;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.LightweightPeer;
 import javax.swing.JComponent;
 
@@ -36,6 +40,30 @@ final class SwingLightweightPeer extends
     public SwingLightweightPeer(SwingToolkit toolkit, Component component) {
         super(toolkit, component, new SwingLightweightComponent(component));
     }
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

@@ -21,7 +21,6 @@
 package org.jnode.vm;
 
 import java.nio.ByteBuffer;
-import java.nio.MemoryRawData;
 
 import org.jnode.system.resource.MemoryResource;
 import org.jnode.system.resource.MultiMediaMemoryResource;
@@ -38,6 +37,7 @@ import org.vmmagic.unboxed.Extent;
 import org.vmmagic.unboxed.ObjectReference;
 import org.vmmagic.unboxed.Offset;
 import org.vmmagic.unboxed.Word;
+import java.nio.MemoryRawData;
 
 /**
  * Default implementation of MemoryResource.

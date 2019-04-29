@@ -41,8 +41,10 @@ import org.jnode.vm.classmgr.VmArray;
 import org.jnode.vm.classmgr.VmClassLoader;
 import org.jnode.vm.classmgr.VmClassType;
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
+import org.jnode.vm.classmgr.VmConstMethodHandle;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 import org.jnode.vm.classmgr.VmField;
@@ -366,7 +368,11 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor {
      * @param hasSelf
      */
     private void dropParameters(VmMethod method, boolean hasSelf) {
-        final int[] argTypes = JvmType.getArgumentTypes(method.getSignature());
+        dropParameters(method.getSignature(), hasSelf);
+    }
+    
+    private void dropParameters(String signature, boolean hasSelf) {
+    	final int[] argTypes = JvmType.getArgumentTypes(signature);
         final int count = argTypes.length;
         for (int i = count - 1; i >= 0; i--) {
             final int type = argTypes[i];
@@ -2858,6 +2864,16 @@ final class X86BytecodeVisitor extends InlineBytecodeVisitor {
                 // Result is already on the stack.
             }
         }
+    }
+        
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constDynamicMethodRef) {
+    	//TODO not sure if this is correct.
+    	final VmConstMethodRef constMethodRef = constDynamicMethodRef.getConstMethodHandle().getMethodRef();
+    	vstack.push(eContext);    	    	
+        dropParameters(constDynamicMethodRef.getSignature(), false);
+        final VmMethod vmMethod = constMethodRef.getResolvedVmMethod();
+        helper.invokeJavaMethod(vmMethod);
     }
 
     /**

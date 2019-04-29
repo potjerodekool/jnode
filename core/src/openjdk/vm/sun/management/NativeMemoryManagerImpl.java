@@ -20,7 +20,7 @@
  
 package sun.management;
 
-import java.lang.management.MemoryPoolMXBean;
+import org.jnode.java.lang.management.MemoryPoolMXBean;
 
 /**
  * @see sun.management.MemoryManagerImpl

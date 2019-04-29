@@ -141,7 +141,7 @@ public final class VmAnnotation extends VmSystemObject {
 
                 //try {
                 /*value =*/
-                return AnnotationParser.annotationForMap(loader.asClassLoader().loadClass(annType.getName()), vmap);
+                return AnnotationParser.annotationForMap((Class<? extends Annotation>) loader.asClassLoader().loadClass(annType.getName()), vmap);
 
             } else {
 

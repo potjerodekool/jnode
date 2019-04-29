@@ -23,6 +23,7 @@ package org.jnode.vm.compiler;
 import org.jnode.vm.bytecode.BasicBlock;
 import org.jnode.vm.bytecode.BytecodeParser;
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
 import org.jnode.vm.classmgr.VmConstMethodRef;
@@ -37,7 +38,7 @@ import org.jnode.vm.classmgr.VmType;
 public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor>
     extends CompilerBytecodeVisitor {
 
-    private final T delegate;
+    protected final T delegate;
 
     public DelegatingCompilerBytecodeVisitor(T delegate) {
         this.delegate = delegate;
@@ -121,6 +122,8 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      * @param method
      */
     public void startMethod(VmMethod method) {
+    	log("");
+    	log(method.getName());    	
         delegate.startMethod(method);
     }
 
@@ -136,12 +139,14 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_aaload() {
         delegate.visit_aaload();
+        throwException();
     }
 
     /**
      *
      */
     public void visit_aastore() {
+    	log("aastore");
         delegate.visit_aastore();
     }
 
@@ -150,20 +155,23 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_aconst_null() {
         delegate.visit_aconst_null();
+        throwException();
     }
 
     /**
      * @param index
      */
     public void visit_aload(int index) {
-        delegate.visit_aload(index);
+    	log("aload " + index);
+        delegate.visit_aload(index);        
     }
 
     /**
      * @param clazz
      */
     public void visit_anewarray(VmConstClass clazz) {
-        delegate.visit_anewarray(clazz);
+    	log("anewarray " + clazz.getClassName());
+        delegate.visit_anewarray(clazz);        
     }
 
     /**
@@ -171,20 +179,23 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_areturn() {
         delegate.visit_areturn();
+        throwException();
     }
 
     /**
      *
      */
     public void visit_arraylength() {
-        delegate.visit_arraylength();
+    	log("arraylength");
+    	delegate.visit_arraylength();        
     }
 
     /**
      * @param index
      */
     public void visit_astore(int index) {
-        delegate.visit_astore(index);
+    	log("astore " + index);
+        delegate.visit_astore(index);        
     }
 
     /**
@@ -192,6 +203,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_athrow() {
         delegate.visit_athrow();
+        throwException();
     }
 
     /**
@@ -199,6 +211,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_baload() {
         delegate.visit_baload();
+        throwException();
     }
 
     /**
@@ -206,6 +219,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_bastore() {
         delegate.visit_bastore();
+        throwException();
     }
 
     /**
@@ -213,6 +227,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_caload() {
         delegate.visit_caload();
+        throwException();
     }
 
     /**
@@ -220,6 +235,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_castore() {
         delegate.visit_castore();
+        throwException();
     }
 
     /**
@@ -227,6 +243,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_checkcast(VmConstClass clazz) {
         delegate.visit_checkcast(clazz);
+        throwException();
     }
 
     /**
@@ -234,6 +251,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_d2f() {
         delegate.visit_d2f();
+        throwException();
     }
 
     /**
@@ -241,6 +259,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_d2i() {
         delegate.visit_d2i();
+        throwException();
     }
 
     /**
@@ -248,6 +267,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_d2l() {
         delegate.visit_d2l();
+        throwException();
     }
 
     /**
@@ -255,6 +275,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dadd() {
         delegate.visit_dadd();
+        throwException();
     }
 
     /**
@@ -262,6 +283,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_daload() {
         delegate.visit_daload();
+        throwException();
     }
 
     /**
@@ -269,6 +291,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dastore() {
         delegate.visit_dastore();
+        throwException();
     }
 
     /**
@@ -276,6 +299,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dcmpg() {
         delegate.visit_dcmpg();
+        throwException();
     }
 
     /**
@@ -283,6 +307,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dcmpl() {
         delegate.visit_dcmpl();
+        throwException();
     }
 
     /**
@@ -290,6 +315,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dconst(double value) {
         delegate.visit_dconst(value);
+        throwException();
     }
 
     /**
@@ -297,6 +323,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ddiv() {
         delegate.visit_ddiv();
+        throwException();
     }
 
     /**
@@ -304,6 +331,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dload(int index) {
         delegate.visit_dload(index);
+        throwException();
     }
 
     /**
@@ -311,6 +339,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dmul() {
         delegate.visit_dmul();
+        throwException();
     }
 
     /**
@@ -318,6 +347,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dneg() {
         delegate.visit_dneg();
+        throwException();
     }
 
     /**
@@ -325,6 +355,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_drem() {
         delegate.visit_drem();
+        throwException();
     }
 
     /**
@@ -332,6 +363,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dreturn() {
         delegate.visit_dreturn();
+        throwException();
     }
 
     /**
@@ -339,6 +371,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dstore(int index) {
         delegate.visit_dstore(index);
+        throwException();
     }
 
     /**
@@ -346,13 +379,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dsub() {
         delegate.visit_dsub();
+        throwException();
     }
 
     /**
      *
      */
     public void visit_dup() {
-        delegate.visit_dup();
+    	log("dup");
+        delegate.visit_dup();        
     }
 
     /**
@@ -360,6 +395,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dup_x1() {
         delegate.visit_dup_x1();
+        throwException();
     }
 
     /**
@@ -367,13 +403,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dup_x2() {
         delegate.visit_dup_x2();
+        throwException();
     }
 
     /**
      *
      */
     public void visit_dup2() {
-        delegate.visit_dup2();
+    	log("dup2");
+        delegate.visit_dup2();        
     }
 
     /**
@@ -381,6 +419,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dup2_x1() {
         delegate.visit_dup2_x1();
+        throwException();
     }
 
     /**
@@ -388,6 +427,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dup2_x2() {
         delegate.visit_dup2_x2();
+        throwException();
     }
 
     /**
@@ -395,6 +435,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_f2d() {
         delegate.visit_f2d();
+        throwException();
     }
 
     /**
@@ -402,6 +443,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_f2i() {
         delegate.visit_f2i();
+        throwException();
     }
 
     /**
@@ -409,6 +451,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_f2l() {
         delegate.visit_f2l();
+        throwException();
     }
 
     /**
@@ -416,6 +459,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fadd() {
         delegate.visit_fadd();
+        throwException();
     }
 
     /**
@@ -423,6 +467,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_faload() {
         delegate.visit_faload();
+        throwException();
     }
 
     /**
@@ -430,6 +475,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fastore() {
         delegate.visit_fastore();
+        throwException();
     }
 
     /**
@@ -437,6 +483,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fcmpg() {
         delegate.visit_fcmpg();
+        throwException();
     }
 
     /**
@@ -444,6 +491,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fcmpl() {
         delegate.visit_fcmpl();
+        throwException();
     }
 
     /**
@@ -451,6 +499,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fconst(float value) {
         delegate.visit_fconst(value);
+        throwException();
     }
 
     /**
@@ -458,6 +507,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fdiv() {
         delegate.visit_fdiv();
+        throwException();
     }
 
     /**
@@ -465,6 +515,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fload(int index) {
         delegate.visit_fload(index);
+        throwException();
     }
 
     /**
@@ -472,6 +523,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fmul() {
         delegate.visit_fmul();
+        throwException();
     }
 
     /**
@@ -479,6 +531,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fneg() {
         delegate.visit_fneg();
+        throwException();
     }
 
     /**
@@ -486,6 +539,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_frem() {
         delegate.visit_frem();
+        throwException();
     }
 
     /**
@@ -493,6 +547,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_freturn() {
         delegate.visit_freturn();
+        throwException();
     }
 
     /**
@@ -500,6 +555,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fstore(int index) {
         delegate.visit_fstore(index);
+        throwException();
     }
 
     /**
@@ -507,6 +563,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_fsub() {
         delegate.visit_fsub();
+        throwException();
     }
 
     /**
@@ -514,13 +571,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_getfield(VmConstFieldRef fieldRef) {
         delegate.visit_getfield(fieldRef);
+        throwException();
     }
 
     /**
      * @param fieldRef
      */
     public void visit_getstatic(VmConstFieldRef fieldRef) {
-        delegate.visit_getstatic(fieldRef);
+    	log("getstatic " + fieldRef.getClassName() + "." + fieldRef.getName());
+        delegate.visit_getstatic(fieldRef);        
     }
 
     /**
@@ -528,6 +587,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_goto(int address) {
         delegate.visit_goto(address);
+        throwException();
     }
 
     /**
@@ -535,6 +595,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2b() {
         delegate.visit_i2b();
+        throwException();
     }
 
     /**
@@ -542,6 +603,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2c() {
         delegate.visit_i2c();
+        throwException();
     }
 
     /**
@@ -549,6 +611,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2d() {
         delegate.visit_i2d();
+        throwException();
     }
 
     /**
@@ -556,6 +619,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2f() {
         delegate.visit_i2f();
+        throwException();
     }
 
     /**
@@ -563,6 +627,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2l() {
         delegate.visit_i2l();
+        throwException();
     }
 
     /**
@@ -570,6 +635,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_i2s() {
         delegate.visit_i2s();
+        throwException();
     }
 
     /**
@@ -577,6 +643,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iadd() {
         delegate.visit_iadd();
+        throwException();
     }
 
     /**
@@ -584,6 +651,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iaload() {
         delegate.visit_iaload();
+        throwException();
     }
 
     /**
@@ -591,6 +659,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iand() {
         delegate.visit_iand();
+        throwException();
     }
 
     /**
@@ -598,13 +667,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iastore() {
         delegate.visit_iastore();
+        throwException();
     }
 
     /**
      * @param value
      */
     public void visit_iconst(int value) {
-        delegate.visit_iconst(value);
+    	log("iconst " + value);
+        delegate.visit_iconst(value);                
     }
 
     /**
@@ -612,6 +683,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_idiv() {
         delegate.visit_idiv();
+        throwException();
     }
 
     /**
@@ -619,6 +691,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_acmpeq(int address) {
         delegate.visit_if_acmpeq(address);
+        throwException();
     }
 
     /**
@@ -626,20 +699,23 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_acmpne(int address) {
         delegate.visit_if_acmpne(address);
+        throwException();
     }
 
     /**
      * @param address
      */
     public void visit_if_icmpeq(int address) {
-        delegate.visit_if_icmpeq(address);
+    	log("if_icmpeq " + address);
+        delegate.visit_if_icmpeq(address);        
     }
 
     /**
      * @param address
      */
     public void visit_if_icmpge(int address) {
-        delegate.visit_if_icmpge(address);
+    	log("if_icmpge " + address);
+        delegate.visit_if_icmpge(address);        
     }
 
     /**
@@ -647,6 +723,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_icmpgt(int address) {
         delegate.visit_if_icmpgt(address);
+        throwException();
     }
 
     /**
@@ -654,6 +731,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_icmple(int address) {
         delegate.visit_if_icmple(address);
+        throwException();
     }
 
     /**
@@ -661,6 +739,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_icmplt(int address) {
         delegate.visit_if_icmplt(address);
+        throwException();
     }
 
     /**
@@ -668,6 +747,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_if_icmpne(int address) {
         delegate.visit_if_icmpne(address);
+        throwException();
     }
 
     /**
@@ -675,6 +755,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifeq(int address) {
         delegate.visit_ifeq(address);
+        throwException();
     }
 
     /**
@@ -682,6 +763,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifge(int address) {
         delegate.visit_ifge(address);
+        throwException();
     }
 
     /**
@@ -689,6 +771,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifgt(int address) {
         delegate.visit_ifgt(address);
+        throwException();
     }
 
     /**
@@ -696,6 +779,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifle(int address) {
         delegate.visit_ifle(address);
+        throwException();
     }
 
     /**
@@ -703,6 +787,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iflt(int address) {
         delegate.visit_iflt(address);
+        throwException();
     }
 
     /**
@@ -710,6 +795,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifne(int address) {
         delegate.visit_ifne(address);
+        throwException();
     }
 
     /**
@@ -717,13 +803,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ifnonnull(int address) {
         delegate.visit_ifnonnull(address);
+        throwException();
     }
 
     /**
      * @param address
      */
     public void visit_ifnull(int address) {
-        delegate.visit_ifnull(address);
+    	log("ifnull " + address);
+        delegate.visit_ifnull(address);        
     }
 
     /**
@@ -731,6 +819,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      * @param incValue
      */
     public void visit_iinc(int index, int incValue) {
+    	log("iinc " + index + " " + incValue);
         delegate.visit_iinc(index, incValue);
     }
 
@@ -738,7 +827,8 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      * @param index
      */
     public void visit_iload(int index) {
-        delegate.visit_iload(index);
+    	log("iload " + index);
+        delegate.visit_iload(index);        
     }
 
     /**
@@ -746,6 +836,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_imul() {
         delegate.visit_imul();
+        throwException();
     }
 
     /**
@@ -753,6 +844,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ineg() {
         delegate.visit_ineg();
+        throwException();
     }
 
     /**
@@ -760,6 +852,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_instanceof(VmConstClass clazz) {
         delegate.visit_instanceof(clazz);
+        throwException();
     }
 
     /**
@@ -768,12 +861,14 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_invokeinterface(VmConstIMethodRef methodRef, int count) {
         delegate.visit_invokeinterface(methodRef, count);
+        throwException();
     }
 
     /**
      * @param methodRef
      */
     public void visit_invokespecial(VmConstMethodRef methodRef) {
+    	log("invokespecial " + methodRef.getClassName() + "." + methodRef.getName());
         delegate.visit_invokespecial(methodRef);
     }
 
@@ -781,7 +876,8 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      * @param methodRef
      */
     public void visit_invokestatic(VmConstMethodRef methodRef) {
-        delegate.visit_invokestatic(methodRef);
+    	log("invokestatic " + methodRef.getClassName() + "." + methodRef.getName());
+        delegate.visit_invokestatic(methodRef);        
     }
 
     /**
@@ -789,6 +885,13 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_invokevirtual(VmConstMethodRef methodRef) {
         delegate.visit_invokevirtual(methodRef);
+        throwException();
+    }
+        
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constMethodHandle) {
+    	delegate.visit_invokedynamic(constMethodHandle);
+    	throwException();
     }
 
     /**
@@ -796,6 +899,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ior() {
         delegate.visit_ior();
+        throwException();
     }
 
     /**
@@ -803,6 +907,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_irem() {
         delegate.visit_irem();
+        throwException();
     }
 
     /**
@@ -810,6 +915,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ireturn() {
         delegate.visit_ireturn();
+        throwException();
     }
 
     /**
@@ -817,6 +923,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ishl() {
         delegate.visit_ishl();
+        throwException();
     }
 
     /**
@@ -824,13 +931,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ishr() {
         delegate.visit_ishr();
+        throwException();
     }
 
     /**
      * @param index
      */
     public void visit_istore(int index) {
-        delegate.visit_istore(index);
+    	log("istore " + index);
+        delegate.visit_istore(index);        
     }
 
     /**
@@ -838,6 +947,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_isub() {
         delegate.visit_isub();
+        throwException();
     }
 
     /**
@@ -845,6 +955,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iushr() {
         delegate.visit_iushr();
+        throwException();
     }
 
     /**
@@ -852,6 +963,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ixor() {
         delegate.visit_ixor();
+        throwException();
     }
 
     /**
@@ -859,6 +971,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_jsr(int address) {
         delegate.visit_jsr(address);
+        throwException();
     }
 
     /**
@@ -866,6 +979,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_l2d() {
         delegate.visit_l2d();
+        throwException();
     }
 
     /**
@@ -873,6 +987,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_l2f() {
         delegate.visit_l2f();
+        throwException();
     }
 
     /**
@@ -880,13 +995,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_l2i() {
         delegate.visit_l2i();
+        throwException();
     }
 
     /**
      *
      */
     public void visit_ladd() {
-        delegate.visit_ladd();
+    	log("ladd");
+        delegate.visit_ladd();        
     }
 
     /**
@@ -894,6 +1011,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_laload() {
         delegate.visit_laload();
+        throwException();
     }
 
     /**
@@ -901,6 +1019,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_land() {
         delegate.visit_land();
+        throwException();
     }
 
     /**
@@ -908,6 +1027,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lastore() {
         delegate.visit_lastore();
+        throwException();
     }
 
     /**
@@ -915,13 +1035,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lcmp() {
         delegate.visit_lcmp();
+        throwException();
     }
 
     /**
      * @param value
      */
     public void visit_lconst(long value) {
-        delegate.visit_lconst(value);
+    	log("lconst " + value);
+        delegate.visit_lconst(value);        
     }
 
     /**
@@ -929,13 +1051,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ldc(VmConstString value) {
         delegate.visit_ldc(value);
+        throwException();
     }
 
     /**
      * @param value
      */
     public void visit_ldc(VmConstClass value) {
-        delegate.visit_ldc(value);
+    	log("ldc " + value.getClassName());
+        delegate.visit_ldc(value);        
     }
 
     /**
@@ -943,6 +1067,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ldc(VmType<?> value) {
         delegate.visit_ldc(value);
+        throwException();
     }
 
     /**
@@ -950,13 +1075,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ldiv() {
         delegate.visit_ldiv();
+        throwException();
     }
 
     /**
      * @param index
      */
     public void visit_lload(int index) {
-        delegate.visit_lload(index);
+    	log("lload " + index);
+        delegate.visit_lload(index);        
     }
 
     /**
@@ -964,6 +1091,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lmul() {
         delegate.visit_lmul();
+        throwException();
     }
 
     /**
@@ -971,6 +1099,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lneg() {
         delegate.visit_lneg();
+        throwException();
     }
 
     /**
@@ -981,6 +1110,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
     public void visit_lookupswitch(int defValue, int[] matchValues,
                                    int[] addresses) {
         delegate.visit_lookupswitch(defValue, matchValues, addresses);
+        throwException();
     }
 
     /**
@@ -988,6 +1118,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lor() {
         delegate.visit_lor();
+        throwException();
     }
 
     /**
@@ -995,6 +1126,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lrem() {
         delegate.visit_lrem();
+        throwException();
     }
 
     /**
@@ -1002,6 +1134,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lreturn() {
         delegate.visit_lreturn();
+        throwException();
     }
 
     /**
@@ -1009,6 +1142,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lshl() {
         delegate.visit_lshl();
+        throwException();
     }
 
     /**
@@ -1016,13 +1150,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lshr() {
         delegate.visit_lshr();
+        throwException();
     }
 
     /**
      * @param index
      */
     public void visit_lstore(int index) {
-        delegate.visit_lstore(index);
+    	log("lstore " + index);
+        delegate.visit_lstore(index);        
     }
 
     /**
@@ -1030,6 +1166,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lsub() {
         delegate.visit_lsub();
+        throwException();
     }
 
     /**
@@ -1037,6 +1174,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lushr() {
         delegate.visit_lushr();
+        throwException();
     }
 
     /**
@@ -1044,6 +1182,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lxor() {
         delegate.visit_lxor();
+        throwException();
     }
 
     /**
@@ -1051,6 +1190,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_monitorenter() {
         delegate.visit_monitorenter();
+        throwException();
     }
 
     /**
@@ -1058,6 +1198,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_monitorexit() {
         delegate.visit_monitorexit();
+        throwException();
     }
 
     /**
@@ -1066,13 +1207,15 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_multianewarray(VmConstClass clazz, int dimensions) {
         delegate.visit_multianewarray(clazz, dimensions);
+        throwException();
     }
 
     /**
      * @param clazz
      */
     public void visit_new(VmConstClass clazz) {
-        delegate.visit_new(clazz);
+    	log("new " + clazz.getClassName());
+        delegate.visit_new(clazz);        
     }
 
     /**
@@ -1080,6 +1223,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_newarray(int type) {
         delegate.visit_newarray(type);
+        throwException();
     }
 
     /**
@@ -1087,6 +1231,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_nop() {
         delegate.visit_nop();
+        throwException();
     }
 
     /**
@@ -1094,6 +1239,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_pop() {
         delegate.visit_pop();
+        throwException();
     }
 
     /**
@@ -1101,6 +1247,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_pop2() {
         delegate.visit_pop2();
+        throwException();
     }
 
     /**
@@ -1108,6 +1255,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_putfield(VmConstFieldRef fieldRef) {
         delegate.visit_putfield(fieldRef);
+        throwException();
     }
 
     /**
@@ -1115,6 +1263,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_putstatic(VmConstFieldRef fieldRef) {
         delegate.visit_putstatic(fieldRef);
+        throwException();
     }
 
     /**
@@ -1122,6 +1271,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_ret(int index) {
         delegate.visit_ret(index);
+        throwException();
     }
 
     /**
@@ -1129,6 +1279,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_return() {
         delegate.visit_return();
+        throwException();
     }
 
     /**
@@ -1136,6 +1287,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_saload() {
         delegate.visit_saload();
+        throwException();
     }
 
     /**
@@ -1143,6 +1295,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_sastore() {
         delegate.visit_sastore();
+        throwException();
     }
 
     /**
@@ -1150,6 +1303,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_swap() {
         delegate.visit_swap();
+        throwException();
     }
 
     /**
@@ -1161,6 +1315,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
     public void visit_tableswitch(int defValue, int lowValue, int highValue,
                                   int[] addresses) {
         delegate.visit_tableswitch(defValue, lowValue, highValue, addresses);
+        throwException();
     }
 
     /**
@@ -1168,6 +1323,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void yieldPoint() {
         delegate.yieldPoint();
+        throwException();
     }
 
     /**
@@ -1175,6 +1331,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_aloadStored(int index) {
         delegate.visit_aloadStored(index);
+        throwException();
     }
 
     /**
@@ -1182,6 +1339,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_dloadStored(int index) {
         delegate.visit_dloadStored(index);
+        throwException();
     }
 
     /**
@@ -1189,6 +1347,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_floadStored(int index) {
         delegate.visit_floadStored(index);
+        throwException();
     }
 
     /**
@@ -1196,6 +1355,7 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_iloadStored(int index) {
         delegate.visit_iloadStored(index);
+        throwException();
     }
 
     /**
@@ -1203,5 +1363,14 @@ public class DelegatingCompilerBytecodeVisitor<T extends CompilerBytecodeVisitor
      */
     public void visit_lloadStored(int index) {
         delegate.visit_lloadStored(index);
+        throwException();
+    }
+    
+    private void throwException() {
+    	//throw new UnsupportedOperationException();
+    }
+    
+    private void log(String s) {
+    	//System.out.println(s);
     }
 }

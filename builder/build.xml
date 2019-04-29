@@ -23,7 +23,7 @@
 	<typedef file="${basedir}/../all/lib/jnode.xml"/>
 
 	<property name="my-build.dir"   value="${basedir}/build"/>
-	<property name="my-gen.dir"   value="${basedir}/build/src"/>
+	<property name="my-gen.dir"   value="${basedir}/build/src/org.jnode.builder"/>
 	<property name="my-classes.dir" value="${my-build.dir}/classes"/>
     <property name="my-testclasses.dir" value="${my-build.dir}/testclasses"/>
 	<property name="my-src.dir"     value="${basedir}/src"/>
@@ -34,8 +34,17 @@
 
 	<!-- Subproject specific classpath -->
 	<path id="my-cp">
+		<pathelement location="../core/lib/openjdk/java.base.jar"/>
+		<pathelement location="../core/lib/openjdk/java.prefs.jar"/>
+		<pathelement location="../core/lib/openjdk/java.desktop.jar"/>
+		
 		<pathelement location="${jnode-core.jar}"/>
 		<pathelement location="${jnode-fs.jar}"/>
+		<pathelement location="${asm.jar}"/>
+		<pathelement location="${asm-util.jar}"/>
+		<pathelement location="${asm-analysis.jar}"/>
+		<pathelement location="${asm-tree.jar}"/>
+		
 		<pathelement location="${basedir}/lib/xml-apis.jar"/>
 		<pathelement location="${bcel-5.1.jar}"/>
 		<pathelement location="${nanoxml-java.jar}"/>
@@ -47,15 +56,29 @@
 	</path>
 
 	<target name="prepare" description="Initialize all subproject directories.">
+		<echo message="preparing builder"></echo>
+		
 		<mkdir dir="${my-classes.dir}"/>
 		<mkdir dir="${my-testclasses.dir}"/>
 		<mkdir dir="${jnasm-preprocessor-gen.dir}"/>
 		<mkdir dir="${jnasm-assembler-gen.dir}"/>
 
-		<copy todir="${my-classes.dir}">
+		<copy todir="${my-classes.dir}/org.jnode.builder">
 			<fileset dir="${my-src.dir}/builder" includes="**/*.properties"/>
 		</copy>
+		
+		<!--
+		<copy todir="build/src/org.jnode.builder">
+			<fileset dir="${my-src.dir}/builder"/>
+			<fileset dir="${my-src.dir}/org.jnode.builder"/>
+		</copy>
+		-->
 	</target>
+	
+	<path id="builder-cp">
+		<pathelement path="${jnode-core.jar}" />
+		<pathelement path="../core/lib/openjdk/java.base.jar" />
+	</path>
 
 	<target name="pre-compile" depends="prepare" description="Compile the Template ANT task needed for compiling the core.">
 		<javac destdir="${my-classes.dir}"
@@ -111,19 +134,38 @@
                  dest="${jnasm-assembler-gen.dir}" ext=".java"/>
 	</target>
 
+	<target name="before-compile">
+		<copy todir="build/src/org.jnode.builder">
+			<fileset dir="${my-src.dir}/builder" />
+			<fileset dir="${my-src.dir}/configure" />
+			<!--
+			<fileset dir="${my-gen.dir}" />
+			-->
+			<fileset dir="src/org.jnode.builder" />
+		</copy>
+	</target>
+	
 	<!-- Compile all subproject java files -->
-	<target name="compile" depends="native2ascii">
+	<target name="compile" depends="native2ascii,before-compile">
+		<pathconvert property="build-cp" refid="my-cp"></pathconvert>
+		<echo message="classpath ${build-cp}"></echo>
+		
 		<jnode.compile>
+			<!--
 			<src path="${my-src.dir}/builder"/>
 			<src path="${my-src.dir}/configure"/>
 			<src path="${my-gen.dir}"/>
+			
 			<classpath refid="my-cp"/>
+			-->
+			<modulesourcepath location="build/src/" />
+			<modulepath refid="my-cp"/>
 		</jnode.compile>
 	</target>
 
 	<target name="assemble" depends="compile" description="Assemble the jarfiles.">
 		<jar jarfile="${jnode-builder.jar}"
-        basedir="${my-classes.dir}"
+        basedir="${my-classes.dir}/org.jnode.builder"
         excludes="org/jnode/configure/**"/>
 		<jar jarfile="${jnode-configure.jar}"
         basedir="${my-classes.dir}"

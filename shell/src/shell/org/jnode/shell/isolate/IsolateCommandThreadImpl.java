@@ -153,7 +153,7 @@ public class IsolateCommandThreadImpl implements CommandThread {
     }
 
     @Override
-    public void stop(ThreadDeath threadDeath) {
+    public void stop() {
         isolate.halt(-1);
     }
     

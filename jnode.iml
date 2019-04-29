@@ -1,22 +1,803 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/build/classes" />
-    <output-test url="file://$MODULE_DIR$/build/testclasses" />
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/builder/lib/bcel-5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/annotations.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/ant.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-analysis-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-commons-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-tree-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-util-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-xml-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/bcel.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/commons-lang-2.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/dom4j-1.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/findbugs-ant.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/findbugs.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jaxen-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jdepend-2.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jFormatString.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jsr305.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/findbugs/lib/mysql-connector-java-5.1.7-bin.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/iso9660.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/javacc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/jnode-configure-dist.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/pmd/asm-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/pmd/jaxen-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/pmd/junit-4.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/pmd/pmd-4.2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/sabre.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/builder/lib/xml-apis.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ant-commons-net.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ant-contrib-1.0b3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ant-junit.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ant-launcher.jar!/" />
+    <libelement value="file://core/lib/ant-nodeps.jar" />
+    <libelement value="file://core/lib/ant-trax.jar" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ant.jar!/" />
+    <libelement value="file://core/lib/asm-1.5.3.jar" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/asm-attrs-1.5.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/asm-util-1.5.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/cglib-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/checkstyle-all-5.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/commons-net-3.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/ejc-3.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/jmock-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/jmock-cglib-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/junit-4.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/log4j-1.2.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/mauve-src.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/mauve.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/mmtk/mmtk.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/core/lib/mockito-all-1.8.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/bcel-5.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/bsf.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/commons-logging.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/derby.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/derbynet.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/derbytools.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/jawk-1.02.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/jetty-6.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/jetty-util-6.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/jsp-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/jsp-api-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/servlet-api-2.5-6.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/distr/lib/telnetd.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/fs/lib/edtftpj-1.5.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/fs/lib/jcifs-1.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/net/lib/dnsjava-1.6.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/net/lib/jsch-0.1.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/net/lib/oncrpc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/shell/lib/bsh-2.0b5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/shell/lib/nanoxml-2.2.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/shell/lib/rhino1.6r5-jsr223.jar!/" />
+    <src_description expected_position="1">
+      <src_folder value="file://$MODULE_DIR$/builder/src/builder" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/builder/src/configure" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/builder/src/test" expected_position="3" />
+      <src_folder value="file://$MODULE_DIR$/cli/src/commands" expected_position="4" />
+      <src_folder value="file://$MODULE_DIR$/core/src/classlib" expected_position="5" />
+      <src_folder value="file://$MODULE_DIR$/core/src/classpath/ext" expected_position="6" />
+      <src_folder value="file://$MODULE_DIR$/core/src/classpath/vm" expected_position="7" />
+      <src_folder value="file://$MODULE_DIR$/core/src/core" expected_position="8" />
+      <src_folder value="file://$MODULE_DIR$/core/src/driver" expected_position="9" />
+      <src_folder value="file://$MODULE_DIR$/core/src/emu" expected_position="10" />
+      <src_folder value="file://$MODULE_DIR$/core/src/endorsed/nanoxml" expected_position="11" />
+      <src_folder value="file://$MODULE_DIR$/core/src/mmtk-vm" expected_position="12" />
+      <src_folder value="file://$MODULE_DIR$/core/src/openjdk/vm" expected_position="13" />
+      <src_folder value="file://$MODULE_DIR$/core/src/template" expected_position="14" />
+      <src_folder value="file://$MODULE_DIR$/core/src/test" expected_position="15" />
+      <src_folder value="file://$MODULE_DIR$/core/src/testframework" expected_position="16" />
+      <src_folder value="file://$MODULE_DIR$/core/src/vmmagic" expected_position="17" />
+      <src_folder value="file://$MODULE_DIR$/distr/src/apps" expected_position="18" />
+      <src_folder value="file://$MODULE_DIR$/distr/src/emu" expected_position="19" />
+      <src_folder value="file://$MODULE_DIR$/distr/src/install" expected_position="20" />
+      <src_folder value="file://$MODULE_DIR$/distr/src/test" expected_position="21" />
+      <src_folder value="file://$MODULE_DIR$/fs/src/commands" expected_position="22" />
+      <src_folder value="file://$MODULE_DIR$/fs/src/driver" expected_position="23" />
+      <src_folder value="file://$MODULE_DIR$/fs/src/fs" expected_position="24" />
+      <src_folder value="file://$MODULE_DIR$/fs/src/partitions" expected_position="25" />
+      <src_folder value="file://$MODULE_DIR$/fs/src/test" expected_position="26" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/awt" expected_position="27" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/desktop" expected_position="28" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/driver" expected_position="29" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/font" expected_position="30" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/test" expected_position="31" />
+      <src_folder value="file://$MODULE_DIR$/gui/src/thinlet" expected_position="32" />
+      <src_folder value="file://$MODULE_DIR$/net/src/driver" expected_position="33" />
+      <src_folder value="file://$MODULE_DIR$/net/src/net" expected_position="34" />
+      <src_folder value="file://$MODULE_DIR$/net/src/test" expected_position="35" />
+      <src_folder value="file://$MODULE_DIR$/shell/src/emu" expected_position="36" />
+      <src_folder value="file://$MODULE_DIR$/shell/src/shell" expected_position="37" />
+      <src_folder value="file://$MODULE_DIR$/shell/src/test" expected_position="38" />
+      <src_folder value="file://$MODULE_DIR$/textui/src/textui" expected_position="39" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/all" />
-      <excludeFolder url="file://$MODULE_DIR$/builder" />
-      <excludeFolder url="file://$MODULE_DIR$/core" />
-      <excludeFolder url="file://$MODULE_DIR$/distr" />
-      <excludeFolder url="file://$MODULE_DIR$/docs" />
-      <excludeFolder url="file://$MODULE_DIR$/fs" />
-      <excludeFolder url="file://$MODULE_DIR$/gui" />
-      <excludeFolder url="file://$MODULE_DIR$/net" />
-      <excludeFolder url="file://$MODULE_DIR$/shell" />
-      <excludeFolder url="file://$MODULE_DIR$/textui" />
+      <sourceFolder url="file://$MODULE_DIR$/builder/src/builder" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/builder/src/configure" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/builder/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cli/src/commands" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/classlib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/classpath/ext" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/classpath/vm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/driver" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/emu" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/endorsed/nanoxml" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/mmtk-vm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/openjdk/vm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/template" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/testframework" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/vmmagic" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/distr/src/apps" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/distr/src/emu" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/distr/src/install" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/distr/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fs/src/commands" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fs/src/driver" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fs/src/fs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fs/src/partitions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fs/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/awt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/desktop" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/driver" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/font" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/gui/src/thinlet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/net/src/driver" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/net/src/net" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/net/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shell/src/emu" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shell/src/shell" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shell/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/textui/src/textui" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="bcel-5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/bcel-5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="annotations.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/annotations.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-analysis-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-analysis-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-commons-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-commons-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-tree-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-tree-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-util-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-util-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-xml-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/asm-xml-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bcel.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/bcel.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-lang-2.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/commons-lang-2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="dom4j-1.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/dom4j-1.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="findbugs-ant.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/findbugs-ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="findbugs.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/findbugs.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jaxen-1.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jaxen-1.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jdepend-2.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jdepend-2.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jFormatString.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jFormatString.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsr305.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/jsr305.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mysql-connector-java-5.1.7-bin.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/findbugs/lib/mysql-connector-java-5.1.7-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="iso9660.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/iso9660.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javacc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/javacc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jnode-configure-dist.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/jnode-configure-dist.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="builder/lib/pmd/asm-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/pmd/asm-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="builder/lib/pmd/jaxen-1.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/pmd/jaxen-1.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit-4.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/pmd/junit-4.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="pmd-4.2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/pmd/pmd-4.2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sabre.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/sabre.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xml-apis.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/builder/lib/xml-apis.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-commons-net.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ant-commons-net.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-contrib-1.0b3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ant-contrib-1.0b3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-junit.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ant-junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-launcher.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ant-launcher.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-nodeps.jar">
+        <CLASSES>
+          <root url="file://core/lib/ant-nodeps.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ant-trax.jar">
+        <CLASSES>
+          <root url="file://core/lib/ant-trax.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="core/lib/ant.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-1.5.3.jar">
+        <CLASSES>
+          <root url="file://core/lib/asm-1.5.3.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-attrs-1.5.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/asm-attrs-1.5.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-util-1.5.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/asm-util-1.5.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="cglib-2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/cglib-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="checkstyle-all-5.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/checkstyle-all-5.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-net-3.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/commons-net-3.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ejc-3.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/ejc-3.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jmock-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/jmock-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jmock-cglib-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/jmock-cglib-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit-4.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/junit-4.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-1.2.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/log4j-1.2.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mauve-src.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/mauve-src.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mauve.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/mauve.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mmtk.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/mmtk/mmtk.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mockito-all-1.8.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/core/lib/mockito-all-1.8.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bcel-5.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/bcel-5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bsf.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/bsf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-logging.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/commons-logging.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="derby.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/derby.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="derbynet.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/derbynet.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="derbytools.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/derbytools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jawk-1.02.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/jawk-1.02.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-6.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/jetty-6.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-util-6.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/jetty-util-6.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsp-2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/jsp-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsp-api-2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/jsp-api-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="servlet-api-2.5-6.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/servlet-api-2.5-6.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="telnetd.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/distr/lib/telnetd.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="edtftpj-1.5.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/fs/lib/edtftpj-1.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jcifs-1.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/fs/lib/jcifs-1.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="dnsjava-1.6.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/net/lib/dnsjava-1.6.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsch-0.1.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/net/lib/jsch-0.1.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="oncrpc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/net/lib/oncrpc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bsh-2.0b5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/shell/lib/bsh-2.0b5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="nanoxml-2.2.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/shell/lib/nanoxml-2.2.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="rhino1.6r5-jsr223.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/shell/lib/rhino1.6r5-jsr223.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

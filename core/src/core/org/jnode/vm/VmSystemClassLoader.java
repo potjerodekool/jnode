@@ -28,6 +28,8 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -136,6 +138,10 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
         this.sharedStatics = new VmSharedStatics(arch, resolver);
         this.isolatedStatics = new VmIsolatedStatics(arch, resolver);
     }
+
+    public URL[] getClassesURL() {
+		return classesURL;
+	}
 
     /**
      * Constructor for VmClassLoader.
@@ -257,7 +263,8 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
      * @param name
      * @param cls
      */
-    public synchronized void addLoadedClass(String name, VmType cls) {
+    @Override
+    public synchronized void addLoadedClass(String name, VmType<?> cls) {
         if (failOnNewLoad) {
             throw new RuntimeException("Cannot load a new class when failOnNewLoad is set (" + name + ')');
         }
@@ -304,7 +311,7 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
 
         // Also implement the java.lang.ClassLoader principals here
         // otherwise they cannot work in java.lang.ClassLoader.
-        if ((parent != null) && !parent.skipParentLoader(name)) {
+        if ((parent != null)) {
             try {
                 final Class<?> cls = parent.loadClass(name);
                 return VmType.fromClass((Class<?>) cls);
@@ -438,6 +445,7 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
      * @throws ClassNotFoundException
      */
     private ByteBuffer getClassData(String clsName) throws IOException, ClassNotFoundException {
+    	//System.out.println(getClass().getName() + " getClassData " + clsName);
 
         final String fName = clsName.replace('.', '/') + ".class";
 
@@ -445,6 +453,7 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
             // Try the system RT jar first
             final byte[] data = systemRtJar.get(fName);
             if (data != null) {
+            	//System.out.println("getClassData found " + clsName + " in systemRtJar");
                 return ByteBuffer.wrap(data);
             }
 
@@ -839,6 +848,11 @@ public final class VmSystemClassLoader extends VmAbstractClassLoader {
                     throw new ClassNotFoundException(name + "; " + errorMsg);
                 }
                 try {
+                	final ProtectionDomain protectionDomain = getClass().getProtectionDomain();
+                	final CodeSource codeSource = protectionDomain.getCodeSource();
+                	final URL location = codeSource.getLocation();
+                	
+                	
                     wait();
                 } catch (InterruptedException ex) {
                     // Just ignore

@@ -20,14 +20,19 @@
  
 package org.jnode.vm.classmgr;
 
-import gnu.java.lang.VMClassHelper;
 import java.io.Serializable;
 import java.io.Writer;
+import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
+
 import org.jnode.annotation.Inline;
 import org.jnode.annotation.KernelSpace;
 import org.jnode.annotation.LoadStatics;
@@ -289,7 +294,7 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
                    String superClassName, VmClassLoader loader, int modifiers,
                    int typeSize, ProtectionDomain protectionDomain) {
         if (superClassName == null) {
-            if (!name.equals("java.lang.Object")) {
+            if (!name.equals("java.lang.Object") && !name.equals("module-info")) {
                 throw new IllegalArgumentException(
                     "superClassName cannot be null in class " + name);
             }
@@ -1289,6 +1294,10 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
         }
         return null;
     }
+    
+    public int getDeclaredFieldCount() {
+    	return this.fieldTable != null ? fieldTable.length : 0;
+    }
 
     /**
      * Find the field within the given class that has the given name and
@@ -1399,6 +1408,13 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
                 return method;
             }
         }
+        
+        VmMethod polymorphicSignatureMethod = getPolymorphicSignatureMethod(
+        		name, signature);
+        
+        if (polymorphicSignatureMethod != null) {
+        	return polymorphicSignatureMethod;
+        }
 
         // Look in the superclass
         if ((superClass != null) && (!onlyThisClass)) {
@@ -1427,6 +1443,97 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
 
         // Not found
         return null;
+    }
+    
+    private VmMethod getPolymorphicSignatureMethod(String name, String signature) {
+    	boolean stop = "compareAndSet".equals(name);
+    	
+    	final VmMethod[] mt = this.methodTable;
+    	
+    	if (mt != null) {
+    		final Signature lookupSignature = parseSignate(signature);
+    		
+    		if (lookupSignature == null) {
+    			return null;
+    		}
+    		
+    		methodLoop:
+    		for (VmMethod mts : mt) {
+    			if (!mts.getName().equals(name)) {
+    				continue methodLoop;
+    			}
+    			
+				final VmAnnotation[] annotations = mts.getRuntimeAnnotations();
+				
+				if (annotations.length > 0) {
+					boolean polymorphicSignature = false;
+	            	
+	            	for (int a = 0; a < annotations.length; a++) {
+	            		final VmAnnotation annot = annotations[a];
+	            		
+	            		annot.getTypeDescriptor();
+	            		
+	            		if ("Ljava/lang/invoke/MethodHandle$PolymorphicSignature;".equals(annot.getTypeDescriptor())) {
+	            			polymorphicSignature = true;
+	            			break;
+	            		}
+	            	}
+	            	
+	            	if (polymorphicSignature) {
+	            		Signature methodSignature = parseSignate(mts.signature);
+	            		
+	            		if (methodSignature != null) {
+	            			int lookupParamCount = lookupSignature.getParamCount();
+	            			int paramCount = methodSignature.getParamCount();
+	            			int lastParamIndex = paramCount - 1;	            			
+	            			
+	            			for (int i = 0; i < lookupParamCount; i++) {
+	            				VmType<?> lookupParamType = lookupSignature.getParamType(i);
+	            				VmType<?> paramType = null;
+	            				
+	            				if (i < lastParamIndex) {
+	            					paramType = methodSignature.getParamType(i);
+	            				} else if (i == lastParamIndex) {
+	            					paramType = methodSignature.getParamType(lastParamIndex);
+	            					
+	            					if (!lookupParamType.isArray() && paramType.isArray()) {
+	            						VmArrayClass<?> arrayType = (VmArrayClass<?>) paramType;
+	            						paramType = arrayType.getComponentType();
+	            					}
+	            				} else if (i > lastParamIndex) {
+	            					VmType<?> lastParamType = methodSignature.getParamType(lastParamIndex);
+	            					
+	            					if (lastParamType.isArray()) {
+	            						VmArrayClass<?> arrayType = (VmArrayClass<?>) lastParamType;
+	            						paramType = arrayType.getComponentType();
+	            					} else {
+	            						continue methodLoop;
+	            					}
+	            				}
+	            				
+	            				if (paramType == null || !paramType.isAssignableFrom(lookupParamType)) {
+	            					continue methodLoop;
+	            				}
+	            			}
+	            			
+	            			return mts;	
+	            		}
+	    			}
+				}
+    		}	
+    	}
+    	
+    	return null;
+    }
+    
+    private Signature parseSignate(final String signature) {
+    	try {
+			return new Signature(signature, loader);
+		} catch (ClassNotFoundException e) {
+			return null;
+		} catch (RuntimeException e) {
+			return null;
+		}
     }
 
     /**
@@ -1459,6 +1566,16 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
             }
         }
         return null;
+    }
+    
+    public final List<String> getMethodNames() {
+    	final List<String> names = new ArrayList<>();
+    	
+    	for (final VmMethod method : this.methodTable) {
+    		names.add(method.getName());
+    	}
+    	
+    	return names;
     }
 
     /**
@@ -1708,7 +1825,19 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
             state |= VmTypeState.ST_INVALID;
             state &= ~VmTypeState.ST_PREPARING;
             errorMsg = ex.toString();
-            throw new NoClassDefFoundError(ex.getMessage() + " in " + getName());
+            
+            final VmSystemClassLoader systemLoader = (VmSystemClassLoader) loader;
+            final URL[] urls = systemLoader.getClassesURL();
+            
+            if (urls != null && urls.length > 0) {
+            	for (URL url : urls) {
+            		System.out.println(urls);	
+            	}            	
+            } else {
+            	System.out.println("No urls");
+            }
+            
+            throw new NoClassDefFoundError(ex.getMessage() + " in " + getName() + " loader " + loader);
         }
 
         // Step 3: Calculate the object size
@@ -2503,6 +2632,6 @@ public abstract class VmType<T> extends VmAnnotatedElement implements
     }
 
     public Class newClass() {
-        return new Class(this);
+        return new Class(this, loader.asClassLoader(), arrayClass.getComponentType().asClass());
     }
 }

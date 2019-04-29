@@ -20,6 +20,8 @@
  
 package org.jnode.build.x86;
 
+import java.io.File;
+
 import org.jnode.build.AbstractAsmConstBuilder;
 import org.jnode.vm.BaseVmArchitecture;
 import org.jnode.vm.x86.VmX86Architecture32;
@@ -59,5 +61,40 @@ public class AsmConstBuilder extends AbstractAsmConstBuilder {
             throw new IllegalArgumentException("Invalid bits " + bits);
         }
         this.bits = bits;
+    }
+    
+    public static void main(String[] args) {
+    	AsmConstBuilder builder = new AsmConstBuilder();
+    	
+    	String option = null;
+    	
+    	for (String arg : args) {
+    		if (arg.startsWith("-")) {
+    			option = arg.substring(1);
+    		} else {
+    			String value = arg;
+    			
+    			if ("destfile".contentEquals(option)) {
+    				builder.setDestFile(new File(value));
+    			} else if ("bits".equals(option)) {
+    				builder.setBits(Integer.parseInt(value));
+    			} else if ("classesURL".contentEquals(option)) {
+    				builder.setClassesURL(value);
+    			} else if ("class".equals(option)) {
+    				ClassName className = new ClassName();
+    				className.setClassName(value);
+    				builder.addClass(className);
+    			} else if ("classstatic".equals(option)) {
+    				ClassName className = new ClassName();
+    				className.setClassName(value);
+    				className.setStatic(true);
+    				builder.addClass(className);
+    			}
+    		}
+    	}
+    	
+    	
+    	    	
+    	builder.execute();
     }
 }

@@ -21,8 +21,10 @@
 package org.jnode.vm.bytecode;
 
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
+import org.jnode.vm.classmgr.VmConstMethodHandle;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 import org.jnode.vm.classmgr.VmMethod;
@@ -750,6 +752,11 @@ public class DelegatingBytecodeVisitor extends BytecodeVisitor {
      */
     public void visit_invokestatic(VmConstMethodRef methodRef) {
         delegate.visit_invokestatic(methodRef);
+    }
+    
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constMethodHandle) {
+    	delegate.visit_invokedynamic(constMethodHandle);
     }
 
     /**

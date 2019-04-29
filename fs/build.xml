@@ -31,6 +31,7 @@
 	
 <!-- Subproject specific classpath -->
   <path id="my-cp">
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
     <pathelement location="${jnode-core.jar}"/>
     <pathelement location="${jnode-shell.jar}"/>
   	<pathelement location="${jnode-net.jar}"/>
@@ -45,21 +46,35 @@
     <mkdir dir="${my-classes.dir}"/>
     <mkdir dir="${my-testclasses.dir}"/>
     <jnode.copy-descriptors/>
+  	
+  	<copy todir="build/src/org.jnode.fs">
+  		<fileset dir="src/fs" />
+  		<fileset dir="src/driver" />
+  		<fileset dir="src/commands" />
+  		<fileset dir="src/partitions" />
+  		<fileset dir="src/org.jnode.fs" />
+  	</copy>
   </target>
 
 <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
     <jnode.compile>
+    	<!--
 	  <src path="${my-src.dir}/fs"/>
 	  <src path="${my-src.dir}/partitions"/>
 	  <src path="${my-src.dir}/driver"/>
 	  <src path="${my-src.dir}/commands"/>
       <classpath refid="my-cp"/>
+    	-->
+    	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" /> 	
     </jnode.compile>
+  	<!--
     <jnode.compile.test>
 	  <src path="${my-src.dir}/test"/>
       <classpath refid="my-cp"/>
     </jnode.compile.test>
+    -->
     
     <copy todir="${my-classes.dir}">
       <fileset dir="${my-src.dir}/fs" includes="**/*.properties"/>

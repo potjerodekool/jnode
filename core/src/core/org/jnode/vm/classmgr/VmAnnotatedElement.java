@@ -24,6 +24,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
 import org.jnode.vm.objects.VmSystemObject;
+
+import sun.reflect.annotation.AnnotationParser;
+
 import org.jnode.annotation.PrivilegedActionPragma;
 
 /**
@@ -39,6 +42,10 @@ abstract class VmAnnotatedElement extends VmSystemObject implements
      */
     private VmAnnotation[] runtimeAnnotations;
 
+    public VmAnnotation[] getRuntimeAnnotations() {
+		return runtimeAnnotations;
+	}
+    
     /**
      * @param runtimeAnnotations The runtimeAnnotations to set.
      */
@@ -78,7 +85,7 @@ abstract class VmAnnotatedElement extends VmSystemObject implements
     /**
      * @see java.lang.reflect.AnnotatedElement#getAnnotations()
      */
-    public final Annotation[] getAnnotations() {
+    public Annotation[] getAnnotations() {
         final Annotation[] ann = getDeclaredAnnotations();
         final VmAnnotatedElement parent = getSuperElement();
         if (parent != null) {
@@ -109,7 +116,7 @@ abstract class VmAnnotatedElement extends VmSystemObject implements
      * @see java.lang.reflect.AnnotatedElement#getDeclaredAnnotations()
      */
     public final Annotation[] getDeclaredAnnotations() {
-        final int max = runtimeAnnotations.length;
+        final int max = runtimeAnnotations == null ? 0 : runtimeAnnotations.length;
         final Annotation[] arr = new Annotation[max];
         if (max > 0) {
             final VmClassLoader loader = getLoader();

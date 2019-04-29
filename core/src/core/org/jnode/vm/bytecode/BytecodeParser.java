@@ -795,6 +795,9 @@ public class BytecodeParser {
                     handler.visit_invokeinterface(ref, count);
                     break;
                 }
+                case 0xba: 
+                	handler.visit_invokedynamic(cp.getConstDynamicMethodRef(getu2()));
+                	break;
                 //case 0xba: handler.throw_invalid_opcode ; unused
                 case 0xbb:
                     handler.visit_new(cp.getConstClass(getu2()));
@@ -891,7 +894,7 @@ public class BytecodeParser {
                     handler.visit_jsr(address + gets4());
                     break;
                 default:
-                    throw new ClassFormatError("Invalid opcode");
+                    throw new ClassFormatError("Invalid opcode " + opcode);
             }
             fireEndInstruction();
             if (continueAt >= 0) {

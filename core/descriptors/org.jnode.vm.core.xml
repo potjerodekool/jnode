@@ -28,7 +28,9 @@
         provider-name="JNode.org">
         
   <requires>
+  <!-- 
     <import plugin="rt"/>
+    -->
     <!-- import plugin="org.apache.jakarta.log4j"/ -->
     <!-- import plugin="org.jnode.fs.service"/  -->
   </requires>

@@ -56,6 +56,7 @@ import org.jnode.vm.facade.ObjectVisitor;
 import org.jnode.vm.facade.VmArchitecture;
 import org.jnode.vm.facade.VmUtils;
 import org.jnode.vm.objects.BootableHashMap;
+import org.jnode.vm.scheduler.ThreadHelper;
 import org.jnode.vm.scheduler.VmThread;
 
 /**

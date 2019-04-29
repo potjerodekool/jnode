@@ -30,7 +30,7 @@
 
 
   <runtime>
-    <library name="dnsjava-1.6.6.jar">
+    <library name="dnsjava.jar">
       <export name="*"/>
     </library>
   </runtime>

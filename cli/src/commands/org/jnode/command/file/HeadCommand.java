@@ -141,7 +141,7 @@ public class HeadCommand extends AbstractCommand {
             if (reader != null) {
                 try {
                     reader.close();
-                } catch (IOException _) {
+                } catch (IOException e) {
                     // ignore
                 }
             }
@@ -159,7 +159,7 @@ public class HeadCommand extends AbstractCommand {
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException _) {
+                } catch (IOException e) {
                     // ignore
                 }
             }

@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="JAVA_MODULE" version="4">
-  <component name="DBNavigator.Module.ConnectionManager">
-    <connections />
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager" forced_jdk="true">
+    <libelement value="jar://$MODULE_DIR$/lib/edtftpj-1.5.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/jcifs-1.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/ant.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/cglib-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/commons-net-3.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/jmock-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/jmock-cglib-1.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/log4j-1.2.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/junit-4.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../all/lib/classlib.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../core/lib/mockito-all-1.8.5.jar!/" />
+    <src_description expected_position="1">
+      <src_folder value="file://$MODULE_DIR$/src/fs" expected_position="0" />
+      <src_folder value="file://$MODULE_DIR$/src/driver" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/src/test" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/src/commands" expected_position="3" />
+      <src_folder value="file://$MODULE_DIR$/src/partitions" expected_position="4" />
+    </src_description>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/build/classes" />
-    <output-test url="file://$MODULE_DIR$/build/testclasses" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/driver" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/fs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/driver" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/commands" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/partitions" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="shell" />
     <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../net/lib/oncrpc.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jcifs-1.2.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
+      <library name="edtftpj-1.5.2.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/edtftpj-1.5.2.jar!/" />
         </CLASSES>
@@ -45,9 +42,73 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="net" />
     <orderEntry type="module-library">
-      <library>
+      <library name="jcifs-1.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jcifs-1.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="net" />
+    <orderEntry type="module" module-name="core" />
+    <orderEntry type="module-library">
+      <library name="ant.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="cglib-2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/cglib-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-net-3.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/commons-net-3.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jmock-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/jmock-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jmock-cglib-1.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/jmock-cglib-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-1.2.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../core/lib/log4j-1.2.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit-4.5.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../core/lib/junit-4.5.jar!/" />
         </CLASSES>
@@ -56,14 +117,23 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="classlib.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../all/lib/classlib.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../all/lib/classlib-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mockito-all-1.8.5.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../core/lib/mockito-all-1.8.5.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/../core/lib/mockito-all-1.8.5.jar!/" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

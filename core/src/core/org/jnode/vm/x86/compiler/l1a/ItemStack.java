@@ -175,7 +175,8 @@ class ItemStack {
         if (tos <= 0) {
             throw new Error("Stack is empty");
         }
-        if (stack[--tos] != item) {
+        Item z = stack[--tos];
+        if (z != item) {
             int i = tos - 1;
             while ((i >= 0) && (stack[i] != item))
                 i--;

@@ -23,7 +23,6 @@ package org.jnode.fs.service.def;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.jnode.java.io.VMFileSystemAPI;
 import java.io.VMOpenMode;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,8 @@ import org.jnode.fs.FSAccessRights;
 import org.jnode.fs.FSDirectory;
 import org.jnode.fs.FSEntry;
 import org.jnode.fs.FileSystem;
-import org.jnode.java.io.VMFileHandle;
+import org.jnode.support.VMFileHandle;
+import org.jnode.support.VMFileSystemAPI;
 
 /**
  * @author epr

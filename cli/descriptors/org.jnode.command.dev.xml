@@ -28,7 +28,9 @@
 
   <requires>
     <import plugin="org.jnode.debug"/>
+    <!-- 
     <import plugin="org.classpath.ext.jdwp"/>
+     -->
     <import plugin="org.jnode.shell.syntax"/>
   </requires>
   

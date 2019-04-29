@@ -33,14 +33,19 @@
 	
   <!-- Subproject specific classpath -->
   <path id="my-cp">
-    <path refid="cp"/>
-    <pathelement location="${junit.jar}"/>
-  	<pathelement location="${mmtk.jar}"/>
+    
+  	<!--
   	<pathelement location="${mauve.jar}"/>
+  	<pathelement location="${junit.jar}"/>
+  	-->    
+  	<pathelement location="lib/openjdk/java.base.jar"/>
+  	<pathelement location="${mmtk.jar}"/>
+  	<path refid="cp"/>
   </path>
 
   <!-- the sources that we have to compile -->
   <path id="classpath-sources">
+  	<!--
 	<pathelement location="${my-src.dir}/classpath/gnu"/>
 	<pathelement location="${my-src.dir}/classpath/java"/>
 	<pathelement location="${my-src.dir}/classpath/javax"/>
@@ -53,20 +58,30 @@
 	<pathelement location="${my-src.dir}/openjdk/svm"/>
     <pathelement location="${my-src.dir}/icedtea"/>
     <pathelement location="${my-src.dir}/classlib"/>
+  	-->
   </path>
   <path id="classpath-sources-vm">
+  	<!--
     <pathelement location="${my-src.dir}/classpath/ext"/>  
     <pathelement location="${my-src.dir}/classpath/vm"/>
+  	
     <pathelement location="${my-src.dir}/openjdk/vm"/>
+  	-->
   </path>
   <path id="classpath-sources-corba">
+  	<!--
     <pathelement location="${my-src.dir}/openjdk/corba"/>
+    -->
   </path>
   <path id="classpath-sources-jaxws">
+  	<!--
     <pathelement location="${my-src.dir}/openjdk/jaxws"/>
+    -->
   </path>
   <path id="classpath-sources-langtools">
+  	<!--
     <pathelement location="${my-src.dir}/openjdk/langtools"/>
+    -->
   </path>
   <path id="my-sources1">
 	<path refid="classpath-sources-vm"/>
@@ -99,6 +114,12 @@
       </copy>
     </sequential>
   </macrodef>
+	
+	<path id="plan-cp">
+		<pathelement location=""/>
+		<pathelement location="${jnode-code.jar}"/>
+		<pathelement location="${mmtk.jar}"/>
+	</path>
 
   <macrodef name="CreatePlan">
     <attribute name="package"/>
@@ -117,18 +138,33 @@
       </copy>
       <mkdir dir="${my-classes-plan.dir}/@{package}/"/>
       <jnode.compile destdir="${my-classes-plan.dir}/@{package}/">
+      	<!--
+      	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" />
+      	-->
         <src path="${my-gen-plan.dir}/@{package}/"/>
       	<classpath>
+      		<!--
      		<pathelement location="${classlib.jar}"/>
-     		<pathelement location="${jnode-code.jar}"/>
-     		<pathelement location="${mmtk.jar}"/>
+      		-->
+      		<pathelement location="lib/openjdk/java.base.jar"/>
+     		<pathelement location="${jnode-core.jar}"/>
+     		<pathelement location="${mmtk.jar}"/>      		
       	</classpath>
       </jnode.compile>
     </sequential>
   </macrodef>
 
+	<path id="template-cp">
+		<pathelement location="${jnode-builder.jar}"/>
+		<pathelement location="../core/lib/openjdk/java.base.jar"/>
+		<path refid="cp"/>
+	</path>
+	
   <!-- Initialize all subproject directories -->
   <target name="prepare">
+  	<echo message="prepare core"></echo>
+  	
     <mkdir dir="${my-classes.dir}"/>
     <mkdir dir="${my-testclasses.dir}"/>
     <mkdir dir="${my-gen.dir}"/>
@@ -144,28 +180,99 @@
     <ExpandTest classname="PrimitiveDoubleTest" type="double"/>
 
     <taskdef name="template" classname="org.jnode.ant.taskdefs.TemplateTask" classpathref="cp-jnode"/>
+      	
+  	<!--
+    <java fork="true" classname="org.jnode.ant.taskdefs.TemplateTask">
+    	<modulepath refid="template-cp"/>
+    	<arg line="-file ${my-src.dir}/template/org/jnode/vm/VmSystemSettings.java"/>
+    	<arg line="-toFile ${my-gen.dir}/org/jnode/vm/VmSystemSettings.java"/>
+    	<arg line="-token @java.home@ ${jnode.java.home}" />
+    	<arg line="-token @java.io.tmpdir@ ${jnode.java.io.tmpdir}" />
+		<arg line="-token @user.home@ ${jnode.java.home}" />    	
+    </java>
+  	-->
+
+  	<!--
+  	<copy file="${my-src.dir}/template/org/jnode/vm/VmSystemSettings.java" tofile="${my-gen.dir}/org/jnode/vm/VmSystemSettings.java" />
+  	
+  	<replace file="${my-gen.dir}/org/jnode/vm/VmSystemSettings.java">
+  	  <replacefilter token="@java.home@" value="${jnode.java.home}"/>
+  	  <replacefilter token="@java.io.tmpdir@" value="${jnode.java.io.tmpdir}"/>
+  	  <replacefilter token="@user.home@" value="${jnode.java.home}"/>
+  	</replace>
+	-->  	
+  	
     <template file="${my-src.dir}/template/org/jnode/vm/VmSystemSettings.java"
           tofile="${my-gen.dir}/org/jnode/vm/VmSystemSettings.java">
         <token name="@java.home@" value="${jnode.java.home}"/>
         <token name="@java.io.tmpdir@" value="${jnode.java.io.tmpdir}"/>
         <token name="@user.home@" value="${jnode.user.home}"/>
     </template>
+    
+    
+  	<!--
+  	<java fork="true" classname="org.jnode.ant.taskdefs.TemplateTask">
+  		<modulepath refid="template-cp"/>
+    	<arg line="-file ${my-src.dir}/template/org/jnode/security/JNodeSecurityManagerSettings.java"/>
+    	<arg line="-toFile ${my-gen.dir}/org/jnode/security/JNodeSecurityManagerSettings.java"/>
+    	<arg line="-token @jnode.security.enabled@ ${jnode.security.enabled}" />
+    </java>
+  	-->
+  	
+  	<!--
+  	<copy file="${my-src.dir}/template/org/jnode/security/JNodeSecurityManagerSettings.java" tofile="${my-gen.dir}/org/jnode/security/JNodeSecurityManagerSettings.java" />
+  	  	
+  	<replace file="${my-gen.dir}/org/jnode/security/JNodeSecurityManagerSettings.java">
+  	  <replacefilter token="@jnode.security.enabled@" value="${jnode.security.enabled}"/>
+  	</replace>
+  	-->
+
     <template file="${my-src.dir}/template/org/jnode/security/JNodeSecurityManagerSettings.java"
           tofile="${my-gen.dir}/org/jnode/security/JNodeSecurityManagerSettings.java">
         <token name="@jnode.security.enabled@" value="${jnode.security.enabled}"/>
     </template>
+  	
+  	<copy todir="build/src/org.jnode.core">
+  		<fileset dir="${my-src.dir}/classpath/ext" />
+  		<fileset dir="${my-src.dir}/classpath/vm"/>
+  		<!--
+  		<fileset dir="${my-src.dir}/openjdk/vm"/>
+  		-->
+		<fileset dir="src/classlib"/>
+		<fileset dir="${my-src.dir}/core"/>
+		<fileset dir="${my-src.dir}/endorsed/nanoxml"/>
+		<fileset dir="${my-src.dir}/vmmagic"/>
+  		
+  		<fileset dir="${my-src.dir}/driver"/>
+  		<fileset dir="${my-src.dir}/emu"/>
+		<fileset dir="${my-src.dir}/testframework"/>
+  		<fileset dir="${my-src.dir}/mmtk-vm"/>
+		<fileset dir="${my-gen.dir}"/>
+		<fileset dir="src/org.jnode.core"/>
+  	</copy>
+  	
   </target>
 
   <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
       <jnode.compile>
-        <src refid="my-sources" />
-        <classpath refid="my-cp"/>
+      	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" />
       </jnode.compile>
+  	
+  	<!--
+  	<jnode.compile>
+  	        <src refid="my-sources" />
+  	        <classpath refid="my-cp"/>
+  	</jnode.compile>
+  	-->
+  	  	
+  	<!--
       <jnode.compile.test>
         <src refid="my-testsources" />
         <classpath refid="my-cp"/>
       </jnode.compile.test>
+  		-->
       <!--
       <jnode.compile>
         <src refid="classpath-sources-corba" />
@@ -197,10 +304,11 @@
 	    <fileset dir="${my-src.dir}/test" excludes="${my-non-resources}"/>
     </copy>
     
-  	<!-- Create & compile plan classes -->
+  	<!-- Create & compile plan classes -->  
 	<CreatePlan package="org.jnode.vm.memmgr.mmtk.genrc"/>
 	<CreatePlan package="org.jnode.vm.memmgr.mmtk.ms"/>
 	<CreatePlan package="org.jnode.vm.memmgr.mmtk.nogc"/>
+	
   </target>
 	
   <!-- Assemble the jarfile -->

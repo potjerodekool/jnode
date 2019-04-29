@@ -82,8 +82,10 @@ abstract class VmConstMemberRef extends VmResolvableConstObject {
      * @param clc
      */
     protected final void doResolve(VmClassLoader clc) {
-        getConstClass().resolve(clc);
-        doResolveMember(clc);
+    	if (getConstClass() != null) {
+    		getConstClass().resolve(clc);
+            doResolveMember(clc);	
+    	}
     }
 
     /**

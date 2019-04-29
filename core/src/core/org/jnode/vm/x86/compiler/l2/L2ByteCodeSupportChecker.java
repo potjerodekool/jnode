@@ -22,8 +22,10 @@ package org.jnode.vm.x86.compiler.l2;
 
 import org.jnode.vm.bytecode.BytecodeVisitorSupport;
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
+import org.jnode.vm.classmgr.VmConstMethodHandle;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 
@@ -329,5 +331,10 @@ public class L2ByteCodeSupportChecker extends BytecodeVisitorSupport {
     @Override
     public void visit_dsub() {
         notSupported();
+    }
+    
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constMethodHandle) {
+    	notSupported();
     }
 }

@@ -29,6 +29,7 @@
   license-name="classpath">
 
   <runtime>
+  <!-- 
     <library name="classlib.jar">
       <export name="com.sun.tools.jconsole.*"/>
       <export name="sun.applet.*"/>
@@ -49,6 +50,7 @@
       <export name="sun.tools.tree.*"/>
       <export name="sun.tools.util.*"/>
     </library>
+     -->
   </runtime>
 
   <extension point="org.jnode.shell.aliases">

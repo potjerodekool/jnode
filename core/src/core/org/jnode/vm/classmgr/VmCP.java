@@ -82,10 +82,15 @@ public final class VmCP extends VmSystemObject {
      * @return int
      */
     public int getInt(int index) {
-        if (index == 0)
+        if (index == 0) {
             return 0;
-        else
-            return ((VmConstInt) get(index)).intValue();
+        } else {
+        	try {
+        		return ((VmConstInt) get(index)).intValue();
+        	} catch (ClassCastException e) {
+        		return -1;
+        	}
+        }
     }
 
     /**
@@ -158,7 +163,7 @@ public final class VmCP extends VmSystemObject {
         set(index, new VmConstDouble(data));
     }
 
-    protected String getUTF8(int index) {
+    public String getUTF8(int index) {
         return (String) get(index);
     }
 
@@ -253,4 +258,28 @@ public final class VmCP extends VmSystemObject {
     final void reset(int index) {
         cp[index] = null;
     }
+
+    public VmConstMethodHandle getConstMethodHandle(final int index) {
+    	return (VmConstMethodHandle) get(index);
+    }
+    
+	public void setConstMethodHandle(final int index, VmConstMethodHandle value) {
+		set(index, value);
+	}
+
+	public VmConstNameAndType getConstNameAndType(final int index) {
+		return (VmConstNameAndType) get(index);
+	}
+	
+	public void setConstNameAndType(int index, final VmConstNameAndType value) {
+		set(index, value);				
+	}
+	
+	public VmConstDynamicMethodRef getConstDynamicMethodRef(int index) {
+		return (VmConstDynamicMethodRef) get(index);
+	}
+	
+	public void setConstDynamicMethodRef(int index, VmConstDynamicMethodRef constDynamicMethodRef) {
+		set(index, constDynamicMethodRef);
+	}
 }

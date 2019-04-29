@@ -771,4 +771,87 @@ public class BootImageBuilder extends AbstractBootImageBuilder {
     public void setArchClassListFile(File archClassListFile) {
         this.archClassListFile = archClassListFile;
     }
+
+    public static void main(String[] args) {
+    	BootImageBuilder builder = new BootImageBuilder();
+    	builder.configure(args);
+    	builder.execute();
+    	
+        System.out.println("BootImageBuilder: Creating bootimage");
+    }
+    
+    private void configure(final String[] args) {
+    	System.out.println("BootImageBuilder: configure");
+    	
+    	String currentOption = null;    	
+    	AsmSourceInfo asmSourceInfo = null;
+    	
+    	for (String arg : args) {
+    		if (arg.startsWith("-")) {
+    			currentOption = arg.substring(1);
+    		} else if (currentOption != null) {
+    			switch (currentOption) {
+    				case "jnode.debug":
+    					setJNodebug(arg);
+    					break;
+    				case "destfile":
+    					setDestFile(new File(arg));
+    					break;
+    				case "listfile" :
+    					setListFile(new File(arg));
+    					break;
+    				case "debugfile":
+    					setDebugFile(new File(arg));
+    					break;
+    				case "textfile":
+    					setTextFile(new File(arg));
+    					break;
+    				case "kernelfile":
+    					setKernelFile(new File(arg));
+    					break;
+    				case "pluginList":
+    					setPluginList(new File(arg));
+    					break;
+    				case "pluginDir":
+    					setPluginDir(new File(arg));
+    					break;
+    				case "coreClassListFile":
+    					setCoreClassListFile(new File(arg));
+    					break;
+    				case "archClassListFile":
+    					setArchClassListFile(new File(arg));
+    					break;
+    				case "targetArch":
+    					setTargetArch(arg);
+    					break;
+    				case "memMgrPluginId":
+    					setMemMgrPluginId(arg);
+    					break;
+    				case "cpu":
+    					setCpu(arg);
+    					break;
+    				case "version":
+    					setVersion(arg);
+    					break;
+    				case "jnodeCompiler":
+    					setJnodeCompiler(arg);
+    					break;
+    				case "bits":
+    					setBits(Integer.parseInt(arg));
+    					break;
+    				case "enableJNasm":
+    					setEnableJNasm(Boolean.parseBoolean(arg));
+    					break;
+    				case "nanokernelsources":
+    					asmSourceInfo = createNanokernelsources();
+    					asmSourceInfo.setSrcFile(new File(arg));
+    					break;
+    				case "nanokernelsources-includedir":
+    					asmSourceInfo.createIncludeDir().setDir(new File(arg));
+    					break;
+    			}
+    		}
+    	}
+    }
+
 }

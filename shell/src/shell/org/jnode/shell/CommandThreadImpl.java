@@ -97,15 +97,6 @@ public class CommandThreadImpl extends Thread implements CommandThread {
         return this.runner.getRC();
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void stop(ThreadDeath threadDeath) {
-        // FIXME - This is unsafe because the thread being killed could be in the
-        // middle of updating some critical system data structure.  We should
-        // probably throw an exception.
-        super.stop(threadDeath);
-    }
-
     public void waitFor() {
         try {
             join();

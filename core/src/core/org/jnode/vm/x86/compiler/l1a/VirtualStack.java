@@ -265,13 +265,14 @@ final class VirtualStack {
      * @param offsetToFP
      */
     void loadLocal(EmitterContext ec, int offsetToFP) {
+    	/*
         for (int i = 0; i < tos; i++) {
             final Item item = stack[i];
             if (item.isLocal() && item.isAtOffset(offsetToFP)) {
                 item.load(ec);
             }
         }
-
+        */
     }
 
     /**

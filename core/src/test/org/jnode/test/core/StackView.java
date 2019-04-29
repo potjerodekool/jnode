@@ -28,6 +28,7 @@ import org.jnode.vm.classmgr.VmCompiledCode;
 import org.jnode.vm.classmgr.VmMethod;
 import org.jnode.vm.classmgr.VmType;
 import org.jnode.vm.facade.VmUtils;
+import org.jnode.vm.scheduler.ThreadHelper;
 import org.jnode.vm.scheduler.VmThread;
 import org.jnode.vm.x86.VmX86StackReader;
 import org.jnode.vm.x86.VmX86Thread;

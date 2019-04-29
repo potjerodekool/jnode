@@ -21,7 +21,6 @@
 package org.jnode.fs.service;
 
 import java.io.IOException;
-import org.jnode.java.io.VMFileSystemAPI;
 import java.util.Collection;
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import org.jnode.driver.Device;
 import org.jnode.fs.FileSystem;
 import org.jnode.fs.FileSystemException;
 import org.jnode.fs.FileSystemType;
+import org.jnode.support.VMFileSystemAPI;
 
 /**
  * @author epr

@@ -36,6 +36,8 @@ public final class VmStaticField extends VmField implements VmSharedStaticsEntry
      * Is this static field shared
      */
     private final boolean shared;
+    
+    private final Object constantValue;
 
     /**
      * @param name
@@ -50,15 +52,22 @@ public final class VmStaticField extends VmField implements VmSharedStaticsEntry
         String signature,
         int modifiers,
         int staticsIndex,
-        VmType declaringClass,
+        VmType<?> declaringClass,
         int slotSize,
-        boolean shared) {
+        boolean shared,
+        Object constantValue) {
         super(name, signature, modifiers, declaringClass, slotSize);
         if (!Modifier.isStatic(modifiers)) {
             throw new IllegalArgumentException("Instance field in VmStaticField");
         }
         this.staticsIndex = staticsIndex;
         this.shared = shared;
+        this.constantValue = constantValue;
+    }
+    
+    @Override
+    public Object getConstantValue() {
+    	return this.constantValue;
     }
 
     /**

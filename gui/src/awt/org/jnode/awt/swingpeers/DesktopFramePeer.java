@@ -40,19 +40,20 @@ import java.awt.Insets;
 import java.awt.MenuBar;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.FocusEvent.Cause;
 import java.awt.event.KeyEvent;
 import java.awt.event.PaintEvent;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.VolatileImage;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.ContainerPeer;
 import java.awt.peer.FramePeer;
 import org.apache.log4j.Logger;
 import org.jnode.awt.JNodeGenericPeer;
 import org.jnode.awt.JNodeGraphics2D;
 import org.jnode.awt.GraphicsFactory;
-import sun.awt.CausedFocusEvent;
 import sun.java2d.pipe.Region;
 
 /**
@@ -640,8 +641,7 @@ final class DesktopFramePeer extends JNodeGenericPeer<SwingToolkit, DesktopFrame
     }
 
 
-    public boolean requestFocus(Component lightweightChild, boolean temporary, boolean focusedWindowChangeAllowed,
-                                long time, CausedFocusEvent.Cause cause) {
+    public boolean requestFocus(Component lightweightChild, boolean temporary, boolean focusedWindowChangeAllowed) {
         //TODO implement it
         return false;
     }
@@ -662,4 +662,64 @@ final class DesktopFramePeer extends JNodeGenericPeer<SwingToolkit, DesktopFrame
     public void applyShape(Region shape) {
         //TODO implement it
     }
+
+	@Override
+	public void repositionSecurityWarning() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOpacity(float arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setOpaque(boolean arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAlwaysOnTopState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWindow() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void emulateActivation(boolean arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }

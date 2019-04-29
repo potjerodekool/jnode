@@ -20,8 +20,12 @@
  
 package sun.management;
 
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.MemoryUsage;
+import java.lang.Object;
+import java.lang.String;
+
+import org.jnode.java.lang.management.GarbageCollectorMXBean;
+import org.jnode.java.lang.management.MemoryUsage;
+
 import com.sun.management.GcInfo;
 
 /**

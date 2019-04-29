@@ -26,8 +26,10 @@ import org.jnode.bootlog.BootLogInstance;
 import org.jnode.vm.JvmType;
 import org.jnode.vm.classmgr.VmByteCode;
 import org.jnode.vm.classmgr.VmConstClass;
+import org.jnode.vm.classmgr.VmConstDynamicMethodRef;
 import org.jnode.vm.classmgr.VmConstFieldRef;
 import org.jnode.vm.classmgr.VmConstIMethodRef;
+import org.jnode.vm.classmgr.VmConstMethodHandle;
 import org.jnode.vm.classmgr.VmConstMethodRef;
 import org.jnode.vm.classmgr.VmConstString;
 import org.jnode.vm.classmgr.VmInterpretedExceptionHandler;
@@ -1205,15 +1207,29 @@ public class BasicBlockFinder extends BytecodeVisitorSupport implements Bytecode
         tstack.pop(JvmType.REFERENCE);
         tstack.push(JvmType.INT);
     }
-
+        
     private final void popArguments(VmConstMethodRef methodRef) {
         final int[] types = JvmType.getArgumentTypes(methodRef.getSignature());
         for (int i = types.length - 1; i >= 0; i--) {
             tstack.pop(types[i]);
         }
     }
-
+    
+    private final void popArguments(VmConstDynamicMethodRef methodRef) {
+        final int[] types = JvmType.getArgumentTypes(methodRef.getSignature());
+        for (int i = types.length - 1; i >= 0; i--) {
+            tstack.pop(types[i]);
+        }
+    }
+    
     private final void pushReturnValue(VmConstMethodRef methodRef) {
+        final int type = JvmType.getReturnType(methodRef.getSignature());
+        if (type != JvmType.VOID) {
+            tstack.push(type);
+        }
+    }
+    
+    private final void pushReturnValue(VmConstDynamicMethodRef methodRef) {
         final int type = JvmType.getReturnType(methodRef.getSignature());
         if (type != JvmType.VOID) {
             tstack.push(type);
@@ -1254,7 +1270,13 @@ public class BasicBlockFinder extends BytecodeVisitorSupport implements Bytecode
         tstack.pop(JvmType.REFERENCE);
         pushReturnValue(methodRef);
     }
-
+    
+    @Override
+    public void visit_invokedynamic(VmConstDynamicMethodRef constMethodRef) {
+    	popArguments(constMethodRef);
+    	pushReturnValue(constMethodRef);    	
+    }
+        
     /**
      * @see org.jnode.vm.bytecode.BytecodeVisitor#visit_ior()
      */

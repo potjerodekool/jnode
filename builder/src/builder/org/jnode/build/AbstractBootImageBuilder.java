@@ -33,6 +33,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +45,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import org.apache.tools.ant.Project;
 import org.jnode.assembler.Label;
@@ -70,6 +74,7 @@ import org.jnode.vm.VirtualMemoryRegion;
 import org.jnode.vm.VmImpl;
 import org.jnode.vm.VmSystemClassLoader;
 import org.jnode.vm.bytecode.BytecodeParser;
+import org.jnode.vm.classmgr.JdkField;
 import org.jnode.vm.classmgr.Modifier;
 import org.jnode.vm.classmgr.ObjectLayout;
 import org.jnode.vm.classmgr.VmArray;
@@ -78,6 +83,7 @@ import org.jnode.vm.classmgr.VmClassType;
 import org.jnode.vm.classmgr.VmCompiledCode;
 import org.jnode.vm.classmgr.VmField;
 import org.jnode.vm.classmgr.VmIsolatedStatics;
+import org.jnode.vm.classmgr.VmMethod;
 import org.jnode.vm.classmgr.VmMethodCode;
 import org.jnode.vm.classmgr.VmNormalClass;
 import org.jnode.vm.classmgr.VmSharedStatics;
@@ -92,6 +98,7 @@ import org.jnode.vm.memmgr.VmHeapManager;
 import org.jnode.vm.objects.BootableHashMap;
 import org.jnode.vm.objects.VmSystemObject;
 import org.jnode.vm.scheduler.VmProcessor;
+import org.objectweb.asm.ClassWriter;
 import org.vmmagic.unboxed.UnboxedObject;
 
 /**
@@ -332,19 +339,28 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
                 throw new BuildException("Non system plugin found " + descr.getId());
             }
             final PluginJar piJar = ((PluginDescriptorModel) descr).getJarFile();
-//            log("Plugin: " + descr.getId() + piJar.resourceNames().size());
+            log("Plugin: " + descr.getId() + piJar.resourceNames().size());
             for (String name : piJar.resourceNames()) {
                 final ByteBuffer buf = piJar.getResourceAsBuffer(name);
                 final byte[] data = new byte[buf.limit()];
                 buf.get(data);
+                
+                if (name.contains("java/lang/ClassLoader")) {
+                	//throw new RuntimeException();
+                	String s = "";
+                	s = "";
+                }
+                
                 resources.put(name.intern(), data);
 //                log("  " + name);
             }
             piJar.clearResources();
         }
+        
+        //loadJavaBase(resources);
         return resources;
     }
-
+    
     /**
      * Copy the kernel native code into the native stream.
      *
@@ -394,9 +410,6 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
 
     private final void doExecute() throws BuildException {
         setupCompileHighOptLevelPackages();
-
-        debug = (getProject().getProperty("jnode.debug") != null);
-
         final long lmKernel = kernelFile.lastModified();
         final long lmDest = destFile.lastModified();
         final long lmPIL = getPluginListFile().lastModified();
@@ -454,6 +467,7 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
             /* Now create the processor */
             final BaseVmArchitecture arch = getArchitecture();
             final NativeStream os = createNativeStream();
+            
             clsMgr = new VmSystemClassLoader(null/*classesURL*/, arch, new BuildObjectResolver(os, this));
             blockedObjects.add(clsMgr);
             blockedObjects.add(clsMgr.getSharedStatics());
@@ -652,7 +666,6 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
             ex.printStackTrace();
             throw new BuildException(ex);
         }
-
     }
 
     /**
@@ -780,9 +793,9 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
 
     protected abstract void emitStaticInitializerCalls(NativeStream os, VmType<?>[] bootClasses, Object clInitCaller)
         throws ClassNotFoundException;
-
+    
     public final void execute() throws BuildException {
-        try {
+       try {
             InitialNaming.setNameSpace(new BasicNameSpace());
             BootLogInstance.set(new BootLog() {
                 @Override
@@ -1429,6 +1442,18 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
         }
     }
 
+    private static final List<String> skipStaticFieldsPackages = Arrays.asList("java.", "jdk.internal.");
+    
+    private boolean skip(final String name, final List<String> packages) {
+    	for (String packagePrefix : packages) {
+    		if (name.startsWith(packagePrefix)) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+    
     protected void copyStaticFields(VmSystemClassLoader cl, VmSharedStatics sharedStatics,
                                     VmIsolatedStatics isolatedStatics, NativeStream os, ObjectEmitter emitter)
         throws ClassNotFoundException {
@@ -1437,6 +1462,7 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
             final int cnt = type.getNoDeclaredFields();
             if ((cnt > 0) && !name.startsWith("java.")) {
                 final Class<?> javaType = Class.forName(type.getName());
+
                 try {
                     final FieldInfo fieldInfo = emitter.getFieldInfo(javaType);
                     final Field[] jdkFields = fieldInfo.getJdkStaticFields();
@@ -1470,6 +1496,7 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
         throws IllegalAccessException, JNodeClassNotFoundException {
         jf.setAccessible(true);
         final Object val = jf.get(null);
+                
         final int fType = JvmType.SignatureToType(f.getSignature());
         final int idx;
         final VmStaticField sf = (VmStaticField) f;
@@ -1499,17 +1526,17 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
             } else {
                 final int ival;
                 final Class<?> jfType = jf.getType();
-                if (jfType == boolean.class) {
+                if (jfType == Boolean.TYPE) {
                     ival = (Boolean) val ? 1 : 0;
-                } else if (jfType == byte.class) {
+                } else if (jfType == Byte.TYPE) {
                     ival = (Byte) val;
-                } else if (jfType == char.class) {
+                } else if (jfType == Character.TYPE) {
                     ival = (Character) val;
-                } else if (jfType == short.class) {
+                } else if (jfType == Short.TYPE) {
                     ival = (Short) val;
-                } else if (jfType == int.class) {
+                } else if (jfType == Integer.TYPE) {
                     ival = ((Number) val).intValue();
-                } else if (jfType == float.class) {
+                } else if (jfType == Float.TYPE) {
                     ival = Float.floatToRawIntBits((Float) val);
                 } else {
                     throw new IllegalArgumentException("Unknown wide type " + fType);
@@ -1574,4 +1601,10 @@ public abstract class AbstractBootImageBuilder extends AbstractPluginsTask {
     public final void setEnableJNasm(boolean enableJNasm) {
         this.enableJNasm = enableJNasm;
     }
+    
+    protected void setJNodebug(final String arg) {
+    	if (arg != null) {
+    		this.debug = Boolean.parseBoolean(arg);	
+    	}    	
+	}
 }

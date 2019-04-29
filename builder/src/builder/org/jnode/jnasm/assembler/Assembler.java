@@ -20,6 +20,7 @@
  
 package org.jnode.jnasm.assembler;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,7 +111,12 @@ public abstract class Assembler {
     public void performTwoPasses(Reader reader, NativeStream asm) throws Exception {
         String data = readToString(reader);
 
-        //new RandomAccessFile("jnode.lst", "rw").write(data.getBytes());
+        File f = new File("jnode.lst");
+        
+        RandomAccessFile raf = new RandomAccessFile(f, "rw");
+        raf.write(data.getBytes());
+        raf.close();
+        System.out.println("JNODE.lst::: " + f.getAbsolutePath());
 
         //1st pass
         ReInit(new StringReader(data));

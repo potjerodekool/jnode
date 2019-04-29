@@ -54,7 +54,6 @@ import org.jnode.awt.GraphicsFactory;
 import org.jnode.awt.JNodeGenericPeer;
 import org.jnode.awt.JNodeGraphics2D;
 import org.jnode.awt.JNodeToolkit;
-import sun.awt.CausedFocusEvent;
 import sun.java2d.pipe.Region;
 
 /**
@@ -370,59 +369,6 @@ abstract class SwingComponentPeer<awtT extends Component, swingPeerT extends Com
                     x.printStackTrace();
                     org.jnode.vm.Unsafe.debug("SwingComponentPeer.requestFocus() exception\n");
                     org.jnode.vm.Unsafe.debugStackTrace();
-                    return false;
-                }
-            }
-        });
-    }
-
-    public boolean requestFocus(final Component lwChild, final boolean temporary,
-                                final boolean focusedWindowChangeAllowed, final long time,
-                                final CausedFocusEvent.Cause cause) {
-        return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                try {
-                    Component lightweightChild = lwChild;
-                    Method processSynchronousLightweightTransferMethod =
-                        KeyboardFocusManager.class.getDeclaredMethod("processSynchronousLightweightTransfer",
-                            new Class[]{Component.class, Component.class, Boolean.TYPE, Boolean.TYPE, Long.TYPE});
-                    processSynchronousLightweightTransferMethod.setAccessible(true);
-
-                    Object[] params = new Object[]{targetComponent, peerComponent,
-                        Boolean.valueOf(temporary), Boolean.valueOf(focusedWindowChangeAllowed), Long.valueOf(time)};
-                    @SuppressWarnings("unused")
-                    boolean ret =
-                        ((Boolean) processSynchronousLightweightTransferMethod.invoke(null, params)).booleanValue();
-                    //if(ret)
-                    //  return true;
-
-                    if (lightweightChild == null) {
-                        lightweightChild = targetComponent;
-                    }
-                    Component currentOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-                    if (currentOwner != null && currentOwner.getPeer() == null) {
-                        currentOwner = null;
-                    }
-
-                    //if (focusLog.isLoggable(Level.FINER)) focusLog.finer("Simulating transfer from " + currentOwner +
-                    // " to " + lightweightChild);
-                    FocusEvent fg =
-                        new CausedFocusEvent(lightweightChild, FocusEvent.FOCUS_GAINED, false, currentOwner, cause);
-                    FocusEvent fl = null;
-                    if (currentOwner != null) {
-                        fl = new CausedFocusEvent(currentOwner, FocusEvent.FOCUS_LOST, false, lightweightChild, cause);
-                    }
-
-                    if (fl != null) {
-                        postPaintEvent();
-                        JNodeToolkit.postToTarget(fl, currentOwner);
-                    }
-                    JNodeToolkit.postToTarget(fg, (Component) fg.getSource());
-                    return true;
-
-
-                } catch (Exception x) {
-                    x.printStackTrace();
                     return false;
                 }
             }

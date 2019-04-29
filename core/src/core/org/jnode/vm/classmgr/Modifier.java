@@ -149,7 +149,7 @@ public class Modifier {
     public static boolean isSynthetic(int modifier) {
         return ((modifier & ACC_SYNTHETIC) != 0);
     }
-
+    
     public static boolean isWide(String signature) {
         final int len = signature.length();
         final boolean arr = (len > 1) && (signature.charAt(len - 2) == '[');

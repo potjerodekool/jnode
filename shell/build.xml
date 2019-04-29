@@ -32,6 +32,7 @@
   <path id="my-cp">
     <pathelement location="${jnode-core.jar}"/>
     <pathelement location="${nanoxml-java.jar}"/>
+  	<pathelement location="../core/lib/openjdk/java.base.jar"/>
     <path refid="cp"/>
   </path>
 
@@ -46,19 +47,26 @@
     <copy todir="${my-testclasses.dir}">
         <fileset dir="${my-src.dir}/test" excludes="**/*.java,**/package.html"/>
     </copy>
+  	
+  	<copy todir="build/src/org.jnode.shell">
+  		<fileset dir="${my-src.dir}/shell"/>
+  		<fileset dir="${my-src.dir}/emu"/>
+  		<fileset dir="${my-src.dir}/org.jnode.shell"/>
+  	</copy>
     </target>
 
 <!-- Compile all subproject java files -->
   <target name="compile" depends="prepare">
     <jnode.compile>
-        <src path="${my-src.dir}/shell"/>
-        <src path="${my-src.dir}/emu"/>
-      <classpath refid="my-cp"/>
+    	<modulesourcepath path="build/src/" />
+      	<upgrademodulepath refid="my-cp" />
     </jnode.compile>
+  	<!--
     <jnode.compile.test>
         <src path="${my-src.dir}/test"/>
       <classpath refid="my-cp"/>
     </jnode.compile.test>
+    -->
     </target>
 
 <!-- Assemble the jarfile -->

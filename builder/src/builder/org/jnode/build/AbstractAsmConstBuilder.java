@@ -31,6 +31,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.jnode.build.loader.ClassDefinition;
+import org.jnode.build.loader.FieldDefinition;
+import org.jnode.build.loader.VMAsmClassLoader;
 import org.jnode.vm.BaseVmArchitecture;
 import org.jnode.vm.VmImpl;
 import org.jnode.vm.VmSystemClassLoader;
@@ -75,6 +78,119 @@ public abstract class AbstractAsmConstBuilder {
      * @throws InstantiationException
      */
     private void doExecute()
+            throws BuildException, ClassNotFoundException, IllegalAccessException, IOException, InstantiationException {
+    	doExecuteV2();
+    }
+    
+    private void doExecuteV2() 
+    		throws BuildException, ClassNotFoundException, IllegalAccessException, IOException, InstantiationException{
+    	final BaseVmArchitecture arch = getArchitecture();
+        final String[] urls = classesURL.split(",");
+        final URL[] urla = new URL[urls.length];
+        for (int i = 0; i < urls.length; i++) {
+        	urla[i] = new URL(urls[i].trim());
+        }
+
+        final VMAsmClassLoader cl = new VMAsmClassLoader(urla, arch);
+        
+        long lastModified = 0;
+
+        final FileWriter fw = new FileWriter(destFile);
+        final PrintWriter out = new PrintWriter(fw);
+        out.println("; " + destFile.getPath());
+        out.println("; THIS file has been generated automatically on " + new Date());
+        out.println();
+        
+        for (ClassName cn : classes) {
+            lastModified = Math.max(lastModified, cl.findResource(cn.getClassFileName()).
+                openConnection().getLastModified());
+            out.println("; Constants for " + cn.getClassName());
+
+            if (cn.isStatic()) {
+                final ClassDefinition cls = cl.loadClass(cn.getClassName());
+                final FieldDefinition fields[] = cls.getDeclaredFields();
+                for (int i = 0; i < fields.length; i++) {
+                    final FieldDefinition f = fields[i];
+                    if (Modifier.isStatic(f.getModifiers()) && Modifier.isPublic(f.getModifiers())) {
+                        Object value = f.get(null);
+                        if (value instanceof Number) {
+                            String cname = cls.getName();
+                            int idx = cname.lastIndexOf('.');
+                            if (idx > 0) {
+                                cname = cname.substring(idx + 1);
+                            }
+                            String name = cname + "_" + f.getName();
+                            out.println(name + " equ " + value);
+                        }
+                    }
+                }
+                out.println();
+            } else {
+
+                out.println("; VmClass: " + cn.getClassName());
+                
+                final ClassDefinition cls = cl.loadClass(cn.getClassName());
+                
+                String cname = cls.getName().replace('/', '.');
+                int idx = cname.lastIndexOf('.');
+                if (idx > 0) {
+                    cname = cname.substring(idx + 1);
+                }
+                
+                final FieldDefinition[] fields = cls.getDeclaredFields();
+                int cnt = fields.length;
+                for (int i = 0; i < cnt; i++) {
+                    final FieldDefinition f = fields[i];
+                    if (!Modifier.isStatic(f.getModifiers())) {
+                        String name = cname + "_" + f.getName().toUpperCase();
+                        final int typeSize = getTypeSize(f, arch);
+                        if (typeSize < 4) {
+                            name = name + "_S" + typeSize;
+                        }
+                        name = name + "_OFS";
+                        out.println(name + " equ " + f.getOffset());
+                    }
+                }
+                // The size
+                out.println(cname + "_SIZE equ " + cls.getObjectSize());
+                //
+                out.println();
+            }
+        }
+
+        out.flush();
+        fw.flush();
+        out.close();
+        fw.close();
+        destFile.setLastModified(lastModified);
+    }
+    
+    private int getTypeSize(final FieldDefinition field,
+    		final BaseVmArchitecture arch) {
+    	final String descriptor = field.getDescriptor();
+    	
+    	switch (descriptor.charAt(0)) {
+	    	case 'Z': // Boolean
+	        case 'B': // Byte
+	            return 1;
+	        case 'C': // Character
+	        case 'S': // Short
+	            return 2;
+	        case 'I': // Integer
+	        case 'F': // Float
+	            return 4;
+	        case 'L': // Object
+	        case '[': // Array
+	            return arch.getReferenceSize();
+	        case 'J': // Long
+	        case 'D': // Double
+	            return 8;
+	        default:
+	            throw new IllegalArgumentException("Unknown type");
+    	}
+    }
+    
+    private void doExecuteClassic()
         throws BuildException, ClassNotFoundException, IllegalAccessException, IOException, InstantiationException {
 
         final BaseVmArchitecture arch = getArchitecture();

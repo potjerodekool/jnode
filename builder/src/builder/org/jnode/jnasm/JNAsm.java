@@ -55,7 +55,7 @@ public class JNAsm {
         out.flush();
         out.close();
     }
-
+    
     public static void assembler(NativeStream asm, AsmSourceInfo sourceInfo, Map<String, String> symbols)
         throws Exception {
         Preprocessor preprocessor = Preprocessor.newInstance(sourceInfo, symbols);

@@ -21,8 +21,13 @@
 package org.jnode.awt.swingpeers;
 
 import java.awt.AWTEvent;
+import java.awt.BufferCapabilities.FlipContents;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
 import java.awt.TextArea;
+import java.awt.event.FocusEvent.Cause;
+import java.awt.peer.ComponentPeer;
 import java.awt.peer.TextAreaPeer;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -138,6 +143,30 @@ final class SwingTextAreaPeer extends
             throw new RuntimeException(ex);
         }
     }
+
+	@Override
+	public void flip(int arg0, int arg1, int arg2, int arg3, FlipContents arg4) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean requestFocus(Component arg0, boolean arg1, boolean arg2, long arg3, Cause arg4) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setZOrder(ComponentPeer arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean updateGraphicsData(GraphicsConfiguration arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

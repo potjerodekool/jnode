@@ -80,7 +80,7 @@ public class KillCommand extends AbstractCommand {
             // FIXME ... this is bad.  Killing a thread this way could in theory bring down the
             // entire system if we do it at a point where the application thread is executing
             // a method that is updating OS data structures.
-            t.stop(new ThreadDeath());
+            t.stop();
             out.format(fmt_killed, threadId);
         } else {
             out.format(fmt_not_found, threadId);

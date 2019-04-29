@@ -21,12 +21,17 @@
 package org.jnode.jnasm.util;
 
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
+import org.apache.tools.ant.taskdefs.Classloader;
 import org.jnode.assembler.x86.X86Assembler;
 import org.jnode.assembler.x86.X86BinaryAssembler;
 import org.jnode.assembler.x86.X86TextAssembler;
 import org.jnode.util.NumberUtils;
+import org.objectweb.asm.ClassWriter;
 
 /**
  * X86Assembler factory for creating an composed assembler stream which dispatches to a {@code X86TextAssembler} and a
@@ -96,7 +101,24 @@ public class X86DualAssemblerFactory implements InvocationHandler {
         return ret;
     }
 
+    private static void logLoader(final java.lang.ClassLoader classloader) {
+        System.out.println(classloader);
+
+        if (classloader instanceof URLClassLoader) {
+            final URLClassLoader loader = (URLClassLoader) classloader;
+            final URL[] urls = loader.getURLs();
+
+            for (URL url: urls) {
+                System.out.println(url);
+            }
+
+            logLoader(loader.getParent());
+        }
+    }
+
     public static X86Assembler create(X86TextAssembler textAssembler,X86BinaryAssembler binaryAssembler) {
+        logLoader(ClassWriter.class.getClassLoader());
+
         return (X86Assembler) Enhancer.create(X86Assembler.class, new X86DualAssemblerFactory(textAssembler,
             binaryAssembler));
     }

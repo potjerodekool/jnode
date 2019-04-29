@@ -27,9 +27,18 @@ These (system) plugins are always included in the init-jar.
 
     <plugin id="org.apache.jakarta.log4j"/>
     <plugin id="nanoxml"/>
+    <!-- 
     <plugin id="rt"/>
+    -->    
     <plugin id="rt.vm"/>
 
+	<plugin id="java.base"/>
+	<plugin id="java.xml"/>
+    <plugin id="java.compiler"/>
+    <plugin id="java.naming"/>
+    <plugin id="java.prefs"/>
+
+	<plugin id="org.jnode.annotation"/>
 	<plugin id="org.jnode.permission"/>
 	<plugin id="org.jnode.plugin"/>
 	<plugin id="org.jnode.plugin.impl"/>

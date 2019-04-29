@@ -69,7 +69,7 @@ public class PluginJar implements BootableObject, ResourceLoader {
      */
     public PluginJar(PluginRegistryModel registry, URL pluginUrl)
         throws PluginException, IOException {
-        this(registry, FileUtils.loadToBuffer(pluginUrl.openStream(), true), null);
+        this(registry, FileUtils.loadToBuffer(pluginUrl.openStream(), true), pluginUrl);
     }
 
     /**
@@ -92,7 +92,7 @@ public class PluginJar implements BootableObject, ResourceLoader {
                 initBuffer = new byte[0];
             }
             // Load the plugin into memory
-            resources = loadResources(pluginIs);
+            resources = loadResources(pluginIs, pluginUrl);
         } catch (IOException ex) {
             throw new PluginException("Error loading jarfile", ex);
         }
@@ -201,7 +201,8 @@ public class PluginJar implements BootableObject, ResourceLoader {
         return this.descriptor;
     }
 
-    private Map<String, ByteBuffer> loadResources(ByteBuffer buffer) throws IOException {
+    private Map<String, ByteBuffer> loadResources(ByteBuffer buffer,
+    		final URL pluginUrl) throws IOException {
         final BootableHashMap<String, ByteBuffer> map = new BootableHashMap<String, ByteBuffer>();
         final JarBuffer jbuf = new JarBuffer(buffer);
         for (Map.Entry<String, ByteBuffer> entry : jbuf.entries().entrySet()) {

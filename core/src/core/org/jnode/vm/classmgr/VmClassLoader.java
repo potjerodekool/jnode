@@ -147,4 +147,12 @@ public abstract class VmClassLoader extends VmSystemObject {
      * @return the selector map.
      */
     protected abstract SelectorMap getSelectorMap();
+
+    /**
+     * Add a class that has been loaded.
+     *
+     * @param name
+     * @param cls
+     */
+	protected abstract void addLoadedClass(String name, VmType<?> cls);
 }

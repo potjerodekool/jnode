@@ -64,6 +64,9 @@
 	<!-- end of Properties for building the boot files for windows NT/2K/XP -->
 
 	<path id="cp-x86">
+		<!--
+		<pathelement location="${java.base.jar}"/>
+		-->
 		<pathelement location="${jnode-mmtk.jar}" />
 		<pathelement location="${jnode-builder.jar}" />
 		<pathelement location="${jnode-core.jar}" />
@@ -77,6 +80,10 @@
 		<pathelement location="${descriptors.dir}" />
 		<pathelement location="${dom4j.jar}" />
 		<pathelement location="${mmtk.jar}" />
+		<pathelement location="${bcel-5.1.jar}"/>
+		<pathelement location="${asm-analysis.jar}"/>
+		<pathelement location="${asm-tree.jar}"/>
+		<pathelement location="${jsch.jar}"/>
 	</path>
 
 	<target name="test-properties">
@@ -147,11 +154,43 @@
 	</target>
 
 	<target name="asm-native" depends="prepare">
+		<!--
 		<taskdef name="genconst" classname="org.jnode.build.x86.AsmConstBuilder" classpathref="cp-x86" />
+		-->
 		<taskdef name="asm" classname="org.jnode.ant.taskdefs.Asm" classpathref="cp-x86" />
+		
 
+			<!-- classesURL="file:///${jnode-core.jar}/,jar:file:///${classlib.jar}!/,file:///${root.dir}/builder/build/classes/" -->
+		
+		<java fork="true" classname="org.jnode.build.x86.AsmConstBuilder" classpathref="cp-x86">
+			<arg line="-destfile ${build.native.dir}/src/java.inc" />
+			<arg line="-bits ${jnode.bits}"/>
+			<arg line="-classesURL file:///${jnode-core.jar}/,jar:file:///${java.base.jar}!/,file:///${root.dir}/builder/build/classes/org.jnode.builder,jar:file:///${ant.jar}!/"/>
+			<arg line="-class java.lang.Throwable" />
+			<arg line="-classstatic org.jnode.build.x86.BootImageBuilder" />
+			<arg line="-classstatic org.jnode.vm.SoftByteCodes" />
+			<arg line="-class org.jnode.vm.scheduler.VmProcessor" />
+			<arg line="-classstatic org.jnode.vm.scheduler.VmProcessor" />
+			<arg line="-class org.jnode.vm.scheduler.VmThread" />
+			<arg line="-classstatic org.jnode.vm.scheduler.VmThread" />
+			<arg line="-classstatic org.jnode.vm.classmgr.ObjectLayout" />
+			<arg line="-classstatic org.jnode.vm.classmgr.TIBLayout" />
+			<arg line="-classstatic org.jnode.vm.classmgr.VmArray" />
+			<arg line="-class org.jnode.vm.classmgr.VmMethod" />
+			<arg line="-class org.jnode.vm.classmgr.VmStatics" /> 
+			<arg line="-class org.jnode.vm.classmgr.VmType" /> 
+			<arg line="-class org.jnode.vm.x86.MSR" />
+			<arg line="-class org.jnode.vm.x86.VmX86Processor" />
+			<arg line="-classstatic org.jnode.vm.x86.VmX86StackReader" /> 
+			<arg line="-class org.jnode.vm.x86.VmX86Thread" />
+			<arg line="-classstatic org.jnode.vm.x86.VmX86Thread" />
+			<arg line="-class org.jnode.vm.x86.VmX86Thread64" />
+			<jvmarg line="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"/>
+		</java>
+		
+		<!--
 		<genconst destfile="${build.native.dir}/src/java.inc" bits="${jnode.bits}"
-                  classesURL="file:///${jnode-core.jar}/,jar:file:///${classlib.jar}!/,file:///${root.dir}/builder/build/classes/">
+                  classesURL="file:///${jnode-core.jar}/,jar:file:///${java.base.jar}!/,file:///${root.dir}/builder/build/classes/">
 			<class classname="java.lang.Throwable" />
 			<class classname="org.jnode.build.x86.BootImageBuilder" static="on" />
 			<class classname="org.jnode.vm.SoftByteCodes" static="on" />
@@ -172,6 +211,7 @@
 			<class classname="org.jnode.vm.x86.VmX86Thread" static="on" />
 			<class classname="org.jnode.vm.x86.VmX86Thread64" />
 		</genconst>
+		-->
 
 		<dependset>
 			<srcfileset dir="${src.native.dir}/x86" />
@@ -193,8 +233,45 @@
 		</asm>
 	</target>
 
-	<!-- Build the java object file  -->
+	<!-- Build the java object file  classpathref= -->
 	<target name="java-image" depends="asm-native">
+		<java fork="true"
+			classname="org.jnode.build.x86.BootImageBuilder"
+			modulepathref="cp-x86"
+			module="org.jnode.builder"
+			>			
+			<arg line="-destfile ${build.bootimage.dir}/bootimage.bin"/>
+			<arg line="-listfile ${build.bootimage.dir}/bootimage.lst"/>
+			<arg line="-debugfile ${build.bootimage.dir}/bootimage.debug"/>
+			<arg line="-textfile ${build.bootimage.dir}/bootimage.txt"/>
+			<arg line="-kernelfile ${build.native.dir}/output/jnode.o"/>
+			<arg line="-pluginList ${system-plugin-list}"/>
+			<arg line="-pluginDir ${plugins.dir}"/>
+			<arg line="-coreClassListFile ${jnode-core-class-list}"/>
+			<arg line="-archClassListFile ${jnode-x86-class-list}"/>
+			<arg line="-targetArch x86"/>
+			<arg line="-memMgrPluginId ${jnode.memmgr.plugin.id}"/>
+			<arg line="-cpu ${cpu}"/>
+			<arg line="-version ${jnode-ver}"/>
+			<arg line="-jnodeCompiler ${jnode.compiler}"/>
+			<arg line="-bits ${jnode.bits}"/>
+			<arg line="-enableJNasm ${jnode.enable.jnasm}"/>
+			<arg line="-nanokernelsources ${src.native.dir}/x86/jnode.asm"/>
+			<arg line="-nanokernelsources-includedir ${src.native.dir}/x86"/>			
+			<arg line="-nanokernelsources-includedir ${build.native.dir}/src"/>
+			<arg line="-jnode.debug false"/>
+			
+			<jvmarg line="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"/>
+			<!--
+			<jvmarg line="- -patch-module java.base=../core/lib/openjdk/java.base.jar"/>
+			<jvmarg line="-verbose"/>
+			<jvmarg line="- -upgrade-module-path ../core/lib/openjdk"/>
+			-->						
+		</java>
+		<!--
+		
+		
+		
 		<taskdef name="bootimage" classname="org.jnode.build.x86.BootImageBuilder" classpathref="cp-x86" />
 
 		<bootimage 
@@ -221,8 +298,9 @@
 			</nanokernelsources>
 			
 	    </bootimage>			
-
+		
 		<gzip src="${build.bootimage.dir}/bootimage.bin" zipfile="${jnode.kernel}" />
+		-->
 	</target>
 
 	<!-- Build the boot disk -->

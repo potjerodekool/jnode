@@ -34,6 +34,7 @@ import org.jnode.driver.DeviceManager;
 import org.jnode.driver.console.Console;
 import org.jnode.driver.console.ConsoleException;
 import org.jnode.driver.console.textscreen.TextScreenConsoleManager;
+import org.jnode.driver.textscreen.TextScreenManager;
 import org.jnode.driver.textscreen.swing.SwingPcTextScreen;
 import org.jnode.driver.textscreen.swing.SwingTextScreenManager;
 
@@ -52,7 +53,7 @@ public class SwingTextScreenConsoleManager extends TextScreenConsoleManager {
     protected void openInput(DeviceManager devMan) {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                SwingPcTextScreen systemScreen = getTextScreenManager().getSystemScreen();
+                SwingPcTextScreen systemScreen = (SwingPcTextScreen) getTextScreenManager().getSystemScreen();
                 final JComponent screen = systemScreen.getScreenComponent();
                 initializeKeyboard(systemScreen.getKeyboardDevice());
                 addPointerDevice(systemScreen.getPointerDevice());
@@ -91,7 +92,7 @@ public class SwingTextScreenConsoleManager extends TextScreenConsoleManager {
     }
 
     @Override
-    protected SwingTextScreenManager getTextScreenManager() {
+    protected TextScreenManager getTextScreenManager() {
         if (textScreenManager == null) {
             this.textScreenManager = new SwingTextScreenManager();
         }

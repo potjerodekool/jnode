@@ -28,7 +28,7 @@ import java.security.PrivilegedActionException;
 
 import org.jnode.driver.console.CompletionInfo;
 import org.jnode.shell.CommandLine.Token;
-import sun.security.action.GetPropertyAction;
+import gnu.java.security.action.GetPropertyAction;
 
 /**
  * This argument class performs completion against the file system namespace.  This

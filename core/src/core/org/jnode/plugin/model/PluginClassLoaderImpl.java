@@ -306,7 +306,7 @@ final class PluginClassLoaderImpl extends ClassLoader implements PluginClassLoad
         return url;
     }
 
-    public Enumeration<?> getResources(String name) {
+    public Enumeration<URL> getResources(String name) {
         System.err.println("getResources " + name);
         final List<URL> urls = new ArrayList<URL>();
 
